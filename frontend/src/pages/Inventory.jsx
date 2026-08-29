@@ -30,7 +30,7 @@ useEffect(() => {
   const loadInventory = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/inventory"
+        "https://hospital-management-system-rn7a.onrender.com/api/inventory"
       );
 
       const data = await response.json();
@@ -103,7 +103,7 @@ useEffect(() => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/inventory",
+      "https://hospital-management-system-rn7a.onrender.com/api/inventory",
       {
         method: "POST",
         headers: {
@@ -174,7 +174,7 @@ const handleEditItem = async () => {
 
   try {
     const response = await fetch(
-      `http://localhost:5000/api/inventory/${editingItem.id}`,
+      `https://hospital-management-system-rn7a.onrender.com/api/inventory/${editingItem.id}`,
       {
         method: "PUT",
         headers: {

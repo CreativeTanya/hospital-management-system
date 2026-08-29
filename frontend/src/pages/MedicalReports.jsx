@@ -54,7 +54,7 @@ useEffect(() => {
   const loadReports = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/ai-report"
+        "https://hospital-management-system-rn7a.onrender.com/api/ai-report"
       );
 
       const data = await response.json();
@@ -120,7 +120,7 @@ const handleDeleteReport = async (report) => {
 
   try {
     const response = await fetch(
-      `http://localhost:5000/api/ai-report/${reportId}`,
+      `https://hospital-management-system-rn7a.onrender.com/api/ai-report/${reportId}`,
       {
         method: "DELETE",
       }
@@ -297,7 +297,7 @@ const handleDeleteReport = async (report) => {
     if (editingReport) {
   try {
     const response = await fetch(
-      `http://localhost:5000/api/ai-report/${editingReport.id}`,
+      `https://hospital-management-system-rn7a.onrender.com/api/ai-report/${editingReport.id}`,
       {
         method: "PUT",
         headers: {
@@ -348,7 +348,7 @@ const handleDeleteReport = async (report) => {
     // ADD NEW REPORT
 try {
   const response = await fetch(
-    "http://localhost:5000/api/ai-report",
+    "https://hospital-management-system-rn7a.onrender.com/api/ai-report",
     {
       method: "POST",
       headers: {
@@ -538,9 +538,7 @@ try {
                     {report.patient}
                   </strong>
 
-                  <small>
-                    {report.id}
-                  </small>
+                  
 
                 </div>
 

@@ -130,7 +130,7 @@ function AIReportAssistant() {
 
     formData.append("report", selectedFile);
 
-   const response = await fetch("http://localhost:5000/api/ai-report/analyze", {
+   const response = await fetch("https://hospital-management-system-rn7a.onrender.com/api/ai-report/analyze", {
   method: "POST",
   body: formData,
 });

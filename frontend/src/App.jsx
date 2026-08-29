@@ -83,11 +83,11 @@ const [
   billingRes,
 ] = await Promise.all([
 fetch(`${import.meta.env.VITE_API_URL}/api/patients`),
-fetch("http://localhost:5000/api/doctors"),
+fetch("https://hospital-management-system-rn7a.onrender.com/api/doctors"),
 fetch(`${import.meta.env.VITE_API_URL}/api/appointments`),
 fetch(`${import.meta.env.VITE_API_URL}/api/ai-report`),
-  fetch("http://localhost:5000/api/inventory"),
-  fetch("http://localhost:5000/api/billing"),
+  fetch("https://hospital-management-system-rn7a.onrender.com/api/inventory"),
+  fetch("https://hospital-management-system-rn7a.onrender.com/api/billing"),
 ]);
 
        if (

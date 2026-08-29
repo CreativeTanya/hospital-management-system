@@ -8,7 +8,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-const API_URL = "http://localhost:5000/api/billing";
+const API_URL = "https://hospital-management-system-rn7a.onrender.com/api/billing";
 
 const emptyBill = {
   patient: "",

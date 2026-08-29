@@ -33,7 +33,7 @@ function Medicines() {
     const loadMedicines = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/medicines"
+          "https://hospital-management-system-rn7a.onrender.com/api/medicines"
         );
 
         if (!response.ok) {
@@ -205,7 +205,7 @@ const handleSaveMedicine = async () => {
     console.log("5. SENDING POST REQUEST");
 
     const response = await fetch(
-      "http://localhost:5000/api/medicines",
+      "https://hospital-management-system-rn7a.onrender.com/api/medicines",
       {
         method: "POST",
         headers: {

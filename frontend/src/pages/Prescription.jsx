@@ -8,7 +8,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-const API = "http://localhost:5000/api/prescriptions";
+const API = "https://hospital-management-system-rn7a.onrender.com/api/prescriptions";
 
 const emptyForm = {
   patient: "",
