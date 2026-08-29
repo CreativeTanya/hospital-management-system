@@ -10,12 +10,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+
 const patientRoutes = require("./routes/patientRoutes");
 const doctorRoutes = require("./routes/doctorRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
 const aiReportRoutes = require("./routes/aiReportRoutes");
 const billingRoutes = require("./routes/billingRoutes");
+const medicineRoutes = require("./routes/medicineRoutes");
+const inventoryRoutes = require("./routes/inventoryRoutes");
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
@@ -31,12 +35,17 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
 app.use("/api/ai-report", aiReportRoutes);
 app.use("/api/billing", billingRoutes);
+app.use("/api/medicines", medicineRoutes);
+app.use("/api/inventory", inventoryRoutes);
+
+// API test route
 app.get("/api/test", (req, res) => {
   res.json({
     message: "Main server is working",
   });
 });
-// Test route
+
+// Main test route
 app.get("/", (req, res) => {
   res.json({
     message: "NEW SERVER TEST 123",
@@ -45,7 +54,9 @@ app.get("/", (req, res) => {
 
 // MongoDB connection
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 10000,
+  })
   .then(() => {
     console.log("MongoDB connected successfully");
 
@@ -54,5 +65,8 @@ mongoose
     });
   })
   .catch((error) => {
-    console.error("MongoDB connection failed:", error.message);
+    console.error(
+      "MongoDB connection failed:",
+      error.message
+    );
   });

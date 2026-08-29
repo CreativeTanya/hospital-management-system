@@ -13,6 +13,7 @@ import {
   Bell,
   Search,
   Plus,
+  UserRound
 } from "lucide-react";
 
 import "./App.css";
@@ -30,18 +31,25 @@ import Prescription from "./pages/Prescription";
 
 function App() {
   const [activePage, setActivePage] = useState("Dashboard");
-
+const [showSettings, setShowSettings] = useState(false);
+const [showHelp, setShowHelp] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     patients: 0,
     doctors: 0,
     appointments: 0,
     pendingReports: 0,
   });
-
+const [dashboardDoctors, setDashboardDoctors] = useState([]);
   const [todayAppointments, setTodayAppointments] = useState([]);
   const [appointmentsLoading, setAppointmentsLoading] =
     useState(true);
+    const [lowStockItems, setLowStockItems] = useState([]);
+const [todayRevenue, setTodayRevenue] = useState(0);
+const [todayPaidBills, setTodayPaidBills] = useState(0);
+const [patients, setPatients] = useState([]);
+const [doctors, setDoctors] = useState([]);
 
+const [globalSearch, setGlobalSearch] = useState("");
   // Get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
     const today = new Date();
@@ -71,35 +79,75 @@ const [
   doctorsRes,
   appointmentsRes,
   reportsRes,
+  inventoryRes,
+  billingRes,
 ] = await Promise.all([
-  fetch("http://localhost:5000/api/patients"),
-  fetch("http://localhost:5000/api/doctors"),
-  fetch("http://localhost:5000/api/appointments"),
-  fetch("http://localhost:5000/api/ai-report"),
+fetch(`${import.meta.env.VITE_API_URL}/api/patients`),
+fetch("http://localhost:5000/api/doctors"),
+fetch(`${import.meta.env.VITE_API_URL}/api/appointments`),
+fetch(`${import.meta.env.VITE_API_URL}/api/ai-report`),
+  fetch("http://localhost:5000/api/inventory"),
+  fetch("http://localhost:5000/api/billing"),
 ]);
 
-        if (
-          !patientsRes.ok ||
-          !doctorsRes.ok ||
-          !appointmentsRes.ok
-        ) {
+       if (
+  !patientsRes.ok ||
+  !doctorsRes.ok ||
+  !appointmentsRes.ok ||
+  !reportsRes.ok ||
+  !inventoryRes.ok ||
+  !billingRes.ok
+) {
           throw new Error(
             "Failed to load dashboard data"
           );
         }
 
-        const patients = await patientsRes.json();
-        const doctors = await doctorsRes.json();
+        const patientsData = await patientsRes.json();
+        const doctorsData = await doctorsRes.json();
+        setDashboardDoctors(doctorsData);
         const appointments = await appointmentsRes.json();
         const reports = await reportsRes.json();
+        
+const inventory = await inventoryRes.json();
+const bills = await billingRes.json();
+setPatients(patientsData);
+setDoctors(doctorsData);
 
+
+
+// Calculate today's revenue
+const paidBills = bills.filter((bill) => {
+  return (
+    String(bill.payment || "").trim().toLowerCase() === "paid"
+  );
+});
+
+const totalRevenue = paidBills.reduce(
+  (total, bill) => total + Number(bill.amount || 0),
+  0
+);
+
+setTodayRevenue(totalRevenue);
+setTodayPaidBills(paidBills.length);
+
+// Calculate low-stock inventory
+const lowStock = inventory.filter(
+  (item) =>
+    item.status === "Low Stock" ||
+    item.status === "Out of Stock"
+);
+
+setLowStockItems(lowStock);
+
+// Calculate pending reports
 const pendingReports = reports.filter(
   (report) => report.status === "Pending"
 );
         // Total statistics
         setDashboardStats({
-          patients: patients.length,
-          doctors: doctors.length,
+          patients: patientsData.length,
+          doctors: doctorsData.length,
           appointments: appointments.length,
           pendingReports: pendingReports.length,
         });
@@ -209,119 +257,177 @@ const pendingReports = reports.filter(
 
   return (
     <div className="app">
+<aside className="sidebar">
 
-      {/* ================= SIDEBAR ================= */}
+  {/* BRAND */}
+  <div className="sidebar-brand">
 
-      <aside className="sidebar">
+    <div className="brand-icon">
+      <span>✚</span>
+    </div>
 
-        <div className="brand">
+    <div className="brand-text">
+      <h2>MediCare</h2>
+      <span>Hospital Management</span>
+    </div>
 
-          <div className="brand-icon">
-            ✚
-          </div>
+  </div>
 
-          <div>
-            <h2>MediCare</h2>
-            <span>
-              Hospital Management
-            </span>
-          </div>
 
-        </div>
+  {/* MAIN MENU */}
+  <div className="sidebar-section">
 
-        <nav className="navigation">
+    <div className="sidebar-label">
+      MAIN
+    </div>
 
-          <p className="nav-title">
-            MAIN MENU
-          </p>
+    {menuItems.slice(0, 4).map((item) => (
+      <button
+        key={item.label}
+        className={`menu-item ${
+          activePage === item.label ? "active" : ""
+        }`}
+        onClick={() => setActivePage(item.label)}
+      >
+        <item.icon size={18} strokeWidth={1.8} />
+        <span>{item.label}</span>
+      </button>
+    ))}
 
-          {menuItems.map((item) => {
+  </div>
 
-            const Icon = item.icon;
 
-            return (
-              <button
-                key={item.label}
-                onClick={() =>
-                  setActivePage(item.label)
-                }
-                className={`nav-item ${
-                  activePage === item.label
-                    ? "active"
-                    : ""
-                }`}
-              >
-                <Icon size={19} />
-                <span>
-                  {item.label}
-                </span>
-              </button>
-            );
-          })}
+  {/* CLINICAL */}
+  <div className="sidebar-section">
 
-          <p className="nav-title tools-title">
-            AI & TOOLS
-          </p>
+    <div className="sidebar-label">
+      CLINICAL
+    </div>
 
-          <button
-            className={`nav-item ${
-              activePage ===
-              "AI Report Assistant"
-                ? "active"
-                : ""
-            }`}
-            onClick={() =>
-              setActivePage(
-                "AI Report Assistant"
-              )
-            }
-          >
-            <Bot size={19} />
-            <span>
-              AI Report Assistant
-            </span>
-          </button>
+    {menuItems.slice(4, 7).map((item) => (
+      <button
+        key={item.label}
+        className={`menu-item ${
+          activePage === item.label ? "active" : ""
+        }`}
+        onClick={() => setActivePage(item.label)}
+      >
+        <item.icon size={18} strokeWidth={1.8} />
+        <span>{item.label}</span>
+      </button>
+    ))}
 
-          <button
-            className={`nav-item ${
-              activePage ===
-              "Medicine Dictionary"
-                ? "active"
-                : ""
-            }`}
-            onClick={() =>
-              setActivePage(
-                "Medicine Dictionary"
-              )
-            }
-          >
-            <BookOpen size={19} />
-            <span>
-              Medicine Dictionary
-            </span>
-          </button>
+  </div>
 
-        </nav>
 
-        <div className="sidebar-user">
+  {/* OPERATIONS */}
+  <div className="sidebar-section">
 
-          <div className="avatar">
-            T
-          </div>
+    <div className="sidebar-label">
+      OPERATIONS
+    </div>
 
-          <div>
-            <strong>Tanya</strong>
-            <span>Administrator</span>
-          </div>
+    {menuItems.slice(7, 9).map((item) => (
+      <button
+        key={item.label}
+        className={`menu-item ${
+          activePage === item.label ? "active" : ""
+        }`}
+        onClick={() => setActivePage(item.label)}
+      >
+        <item.icon size={18} strokeWidth={1.8} />
+        <span>{item.label}</span>
+      </button>
+    ))}
 
-        </div>
+  </div>
 
-      </aside>
+{/* AI & TOOLS */}
+<div className="sidebar-section">
 
+  <div className="sidebar-label">
+    AI & TOOLS
+  </div>
+
+  <button
+    className={`menu-item ${
+      activePage === "AI Report Assistant" ? "active" : ""
+    }`}
+    onClick={() => setActivePage("AI Report Assistant")}
+  >
+    <FileText size={23} strokeWidth={2} />
+    <span>AI Report Assistant</span>
+  </button>
+
+  <button
+    className={`menu-item ${
+      activePage === "Medicine Dictionary" ? "active" : ""
+    }`}
+    onClick={() => setActivePage("Medicine Dictionary")}
+  >
+    <Pill size={23} strokeWidth={2} />
+    <span>Medicine Dictionary</span>
+  </button>
+
+</div>
+
+
+  {/* SIDEBAR FOOTER */}
+<div className="sidebar-footer">
+
+  <button
+    type="button"
+    className="sidebar-footer-item"
+    onClick={() => setShowSettings(true)}
+  >
+    <span>⚙</span>
+    <span>Settings</span>
+  </button>
+
+  <button
+    type="button"
+    className="sidebar-footer-item"
+    onClick={() => setShowHelp(true)}
+  >
+    <span>?</span>
+    <span>Help & Support</span>
+  </button>
+
+  <div className="system-status">
+    <span className="status-dot"></span>
+    <span>System Online</span>
+  </div>
+
+</div>
+
+</aside>
       {/* ================= MAIN CONTENT ================= */}
 
-      <main className="main-content">
+      <main className={`main-content ${activePage === "Dashboard" ? "dashboard-main" : ""}`}>
+<div className="dashboard-decorations">
+  <span className="deco d1">✚</span>
+  <span className="deco d2">💊</span>
+  <span className="deco d3">🩺</span>
+  <span className="deco d4">💉</span>
+  <span className="deco d5">⚕</span>
+  <span className="deco d6">✚</span>
+  <span className="deco d7">💊</span>
+  <span className="deco d8">💉</span>
 
+  <span className="deco d9">🩺</span>
+  <span className="deco d10">✚</span>
+  <span className="deco d11">💊</span>
+  <span className="deco d12">⚕</span>
+  <span className="deco d13">💉</span>
+  <span className="deco d14">✚</span>
+  <span className="deco d15">🩺</span>
+  <span className="deco d16">💊</span>
+
+  <span className="deco d17">💉</span>
+  <span className="deco d18">✚</span>
+  <span className="deco d19">💊</span>
+  <span className="deco d20">🩺</span>
+</div>
         {activePage === "Patients" ? (
 
           <Patients />
@@ -368,65 +474,202 @@ const pendingReports = reports.filter(
 
           <>
             {/* ================= TOPBAR ================= */}
+{/* ================= TOPBAR ================= */}
 
-            <header className="topbar">
+<header className="topbar">
 
-              <div>
+  {/* ================= RIGHT ACTIONS ================= */}
 
-                <p className="welcome">
-                  Good morning, Tanya 👋
-                </p>
+  <div className="topbar-actions">
 
-                <h1>
-                  Hospital Dashboard
-                </h1>
+    <div className="search-box">
 
-              </div>
+      <Search size={18} />
 
-              <div className="topbar-actions">
+      <input
+        type="text"
+        placeholder="Search patients, doctors..."
+        value={globalSearch}
+        onChange={(e) =>
+          setGlobalSearch(e.target.value)
+        }
+      />
 
-                <div className="search-box">
+      {globalSearch.trim() !== "" && (
+        <div className="global-search-results">
 
-                  <Search size={18} />
+          {[
+            ...patients
+              .filter((patient) =>
+                String(patient.name || "")
+                  .toLowerCase()
+                  .includes(
+                    globalSearch.toLowerCase()
+                  )
+              )
+              .map((patient) => ({
+                type: "Patient",
+                name: patient.name,
+                id: patient._id,
+                page: "Patients",
+              })),
 
-                  <input
-                    placeholder="Search patients, doctors..."
-                  />
+            ...doctors
+              .filter((doctor) =>
+                String(doctor.name || "")
+                  .toLowerCase()
+                  .includes(
+                    globalSearch.toLowerCase()
+                  )
+              )
+              .map((doctor) => ({
+                type: "Doctor",
+                name: doctor.name,
+                id: doctor._id,
+                page: "Doctors",
+              })),
+          ].length > 0 ? (
+
+            [
+              ...patients
+                .filter((patient) =>
+                  String(patient.name || "")
+                    .toLowerCase()
+                    .includes(
+                      globalSearch.toLowerCase()
+                    )
+                )
+                .map((patient) => ({
+                  type: "Patient",
+                  name: patient.name,
+                  id: patient._id,
+                  page: "Patients",
+                })),
+
+              ...doctors
+                .filter((doctor) =>
+                  String(doctor.name || "")
+                    .toLowerCase()
+                    .includes(
+                      globalSearch.toLowerCase()
+                    )
+                )
+                .map((doctor) => ({
+                  type: "Doctor",
+                  name: doctor.name,
+                  id: doctor._id,
+                  page: "Doctors",
+                })),
+            ].map((result) => (
+
+              <button
+                key={`${result.type}-${result.id}`}
+                className="global-search-result"
+                onClick={() => {
+                  setActivePage(result.page);
+                  setGlobalSearch("");
+                }}
+              >
+
+                <div>
+
+                  <strong>
+                    {result.name}
+                  </strong>
+
+                  <small>
+                    {result.type}
+                  </small>
 
                 </div>
 
-                <button className="notification">
+              </button>
 
-                  <Bell size={20} />
+            ))
 
-                  <span></span>
+          ) : (
 
-                </button>
+            <div className="global-search-empty">
+              No results found
+            </div>
 
-                <div className="profile">
+          )}
 
-                  <div className="avatar">
-                    T
-                  </div>
+        </div>
+      )}
 
-                  <div>
+    </div>
 
-                    <strong>
-                      Tanya
-                    </strong>
 
-                    <small>
-                      Admin
-                    </small>
+    <button className="notification">
 
-                  </div>
+      <Bell size={20} />
 
-                </div>
+      <span></span>
 
-              </div>
+    </button>
 
-            </header>
 
+    <div className="profile">
+
+      <div className="avatar">
+        T
+      </div>
+
+      <div>
+
+        <strong>
+          Tanya
+        </strong>
+
+        <small>
+          Admin
+        </small>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  {/* ================= CENTER MEDICARE BRAND ================= */}
+
+  <div className="dashboard-brand">
+
+    <div className="medicare-logo">
+
+      <span>Medi</span>
+      <strong>Care</strong>
+
+    </div>
+
+    <p className="medicare-tagline">
+      Smarter Healthcare. Better Care.
+    </p>
+
+  </div>
+
+
+  {/* ================= CENTER DASHBOARD TITLE ================= */}
+
+  <div className="dashboard-title">
+
+    <p className="welcome">
+      Good morning, Tanya 👋
+    </p>
+
+    <h1>
+      Hospital Dashboard
+    </h1>
+
+    <p className="dashboard-subtitle">
+      Your hospital at a glance
+    </p>
+
+  </div>
+
+</header>
             {/* ================= STATISTICS ================= */}
 
             <section className="stats-grid">
@@ -526,8 +769,101 @@ const pendingReports = reports.filter(
                 </div>
 
               </div>
+<div className="stat-card">
 
+  <div className="stat-icon revenue">
+    ₹
+  </div>
+
+  <div>
+    <span>Today's Revenue</span>
+
+    <h2>
+      ₹{todayRevenue.toLocaleString("en-IN")}
+    </h2>
+
+    <small className="positive">
+      {todayPaidBills} paid bill
+      {todayPaidBills !== 1 ? "s" : ""}
+    </small>
+  </div>
+
+</div>
             </section>
+{/* ================= MOVING DOCTORS ================= */}
+
+<section className="dashboard-doctors-section">
+
+  <div className="dashboard-section-heading">
+
+    <div>
+      <p className="page-eyebrow">
+        OUR MEDICAL TEAM
+      </p>
+
+      <h3>
+        Meet Our Doctors
+      </h3>
+      <p className="doctor-section-tagline">
+  Expert care, trusted professionals.
+</p>
+    </div>
+
+    <span>
+      {dashboardDoctors.length} specialists
+    </span>
+
+  </div>
+
+  <div className="doctor-marquee">
+
+    <div className="doctor-marquee-track">
+
+      {[...dashboardDoctors, ...dashboardDoctors].map(
+        (doctor, index) => (
+
+          <div
+            className="dashboard-doctor-card"
+            key={`${doctor._id}-${index}`}
+          >
+
+            <div className="dashboard-doctor-avatar">
+              <UserRound size={28} />
+            </div>
+
+            <div className="dashboard-doctor-info">
+
+              <strong>
+                {doctor.name}
+              </strong>
+
+              <span>
+                {doctor.specialization}
+              </span>
+
+              <small
+                className={
+                  doctor.status === "Available"
+                    ? "doctor-available"
+                    : "doctor-unavailable"
+                }
+              >
+                ● {doctor.status}
+              </small>
+
+            </div>
+
+          </div>
+
+        )
+      )}
+
+    </div>
+
+  </div>
+
+</section>
+
 
             {/* ================= DASHBOARD GRID ================= */}
 
@@ -740,7 +1076,86 @@ const pendingReports = reports.filter(
               </div>
 
             </section>
+{/* ================= INVENTORY ALERT ================= */}
 
+<section className="inventory-alert-section">
+
+  <div className="section-heading">
+
+    <div>
+     <h3 className="glow-green-heading">Inventory Alerts</h3>
+      <p>Medicines that need attention</p>
+    </div>
+
+    <button
+      className="secondary-btn"
+      onClick={() => setActivePage("Inventory")}
+    >
+      View Inventory
+    </button>
+
+  </div>
+
+  <div className="inventory-alert-card">
+
+    {lowStockItems.length === 0 ? (
+
+      <div className="dashboard-empty">
+        <Package size={24} />
+
+        <strong>
+          Inventory looks good
+        </strong>
+
+        <span>
+          No medicines are currently low or out of stock.
+        </span>
+      </div>
+
+    ) : (
+
+      lowStockItems.slice(0, 4).map((item) => (
+
+        <div
+          className="inventory-alert-item"
+          key={item._id}
+        >
+
+          <div className="inventory-alert-icon">
+            <Package size={20} />
+          </div>
+
+          <div className="inventory-alert-info">
+
+            <strong>
+              {item.name}
+            </strong>
+
+            <span>
+              {item.quantity} {item.unit}
+            </span>
+
+          </div>
+
+          <span
+            className={`patient-status ${
+              item.status === "Low Stock"
+                ? "pending"
+                : "inactive"
+            }`}
+          >
+            {item.status}
+          </span>
+
+        </div>
+
+      ))
+
+    )}
+
+  </div>
+
+</section>
             {/* ================= QUICK ACTIONS ================= */}
 
             <section className="quick-section">
@@ -749,9 +1164,7 @@ const pendingReports = reports.filter(
 
                 <div>
 
-                  <h3>
-                    Quick Actions
-                  </h3>
+                  <h3 className="glow-green-heading">Quick Action</h3>
 
                   <p>
                     Frequently used hospital services
@@ -829,7 +1242,152 @@ const pendingReports = reports.filter(
         )}
 
       </main>
+{/* SETTINGS MODAL */}
+{showSettings && (
+  <div
+    className="medicare-modal-overlay"
+    onClick={() => setShowSettings(false)}
+  >
+    <div
+      className="medicare-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
 
+      <div className="medicare-modal-header">
+        <div>
+          <h2>Settings</h2>
+          <p>Manage your MediCare preferences</p>
+        </div>
+
+        <button
+          type="button"
+          className="modal-close"
+          onClick={() => setShowSettings(false)}
+        >
+          ×
+        </button>
+      </div>
+
+      <div className="settings-content">
+
+        <div className="settings-item">
+          <div>
+            <strong>Hospital Profile</strong>
+            <span>Manage hospital information and details</span>
+          </div>
+
+          <button type="button" className="settings-action">
+            Manage
+          </button>
+        </div>
+
+        <div className="settings-item">
+          <div>
+            <strong>Notifications</strong>
+            <span>Manage dashboard notifications</span>
+          </div>
+
+          <button type="button" className="settings-action">
+            Configure
+          </button>
+        </div>
+
+        <div className="settings-item">
+          <div>
+            <strong>Appearance</strong>
+            <span>Customize the dashboard appearance</span>
+          </div>
+
+          <button type="button" className="settings-action">
+            Customize
+          </button>
+        </div>
+
+        <div className="settings-item">
+          <div>
+            <strong>System Status</strong>
+            <span>Your hospital management system is running normally</span>
+          </div>
+
+          <span className="settings-online">
+            ● Online
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+)}
+{/* HELP & SUPPORT MODAL */}
+{showHelp && (
+  <div
+    className="medicare-modal-overlay"
+    onClick={() => setShowHelp(false)}
+  >
+    <div
+      className="medicare-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
+
+      <div className="medicare-modal-header">
+        <div>
+          <h2>Help & Support</h2>
+          <p>Get help using MediCare Hospital Management</p>
+        </div>
+
+        <button
+          type="button"
+          className="modal-close"
+          onClick={() => setShowHelp(false)}
+        >
+          ×
+        </button>
+      </div>
+
+      <div className="help-content">
+
+        <div className="help-card">
+          <div className="help-icon">?</div>
+
+          <div>
+            <strong>Getting Started</strong>
+            <p>
+              Use the sidebar to manage patients, doctors,
+              appointments, prescriptions, reports and billing.
+            </p>
+          </div>
+        </div>
+
+        <div className="help-card">
+          <div className="help-icon">✓</div>
+
+          <div>
+            <strong>Common Help</strong>
+            <p>
+              Make sure required patient and medical information
+              is entered correctly before saving records.
+            </p>
+          </div>
+        </div>
+
+        <div className="help-card">
+          <div className="help-icon">@</div>
+
+          <div>
+            <strong>Support</strong>
+            <p>
+              Need assistance? Contact your hospital administrator
+              or project support team.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+)}
     </div>
   );
 }

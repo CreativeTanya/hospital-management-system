@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   Plus,
@@ -14,58 +14,55 @@ function Inventory() {
   const [viewingItem, setViewingItem] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
 
-  const [items, setItems] = useState([
-    {
-      id: "MED-00101",
-      name: "Paracetamol 500mg",
-      category: "Tablet",
-      supplier: "MediSupply Ltd.",
-      quantity: 120,
-      unit: "Strips",
-      price: 45,
-      status: "In Stock",
-    },
-    {
-      id: "MED-00102",
-      name: "Amoxicillin 500mg",
-      category: "Capsule",
-      supplier: "HealthCare Pharma",
-      quantity: 25,
-      unit: "Boxes",
-      price: 120,
-      status: "Low Stock",
-    },
-    {
-      id: "MED-00103",
-      name: "Insulin Injection",
-      category: "Injection",
-      supplier: "LifeMed Pharma",
-      quantity: 60,
-      unit: "Vials",
-      price: 350,
-      status: "In Stock",
-    },
-    {
-      id: "MED-00104",
-      name: "Ibuprofen 400mg",
-      category: "Tablet",
-      supplier: "MediSupply Ltd.",
-      quantity: 0,
-      unit: "Strips",
-      price: 60,
-      status: "Out of Stock",
-    },
-  ]);
+const [items, setItems] = useState([]);
 
-  const [newItem, setNewItem] = useState({
-    name: "",
-    category: "Tablet",
-    supplier: "",
-    quantity: "",
-    unit: "Strips",
-    price: "",
-    status: "In Stock",
-  });
+const [newItem, setNewItem] = useState({
+  name: "",
+  category: "Tablet",
+  supplier: "",
+  quantity: "",
+  unit: "Strips",
+  price: "",
+  status: "In Stock",
+});
+
+useEffect(() => {
+  const loadInventory = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/inventory"
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to load inventory."
+        );
+      }
+
+      setItems(
+        data.map((item) => ({
+          id: item._id,
+          name: item.name,
+          category: item.category,
+          supplier: item.supplier,
+          quantity: item.quantity,
+          unit: item.unit,
+          price: item.price,
+          status: item.status,
+        }))
+      );
+    } catch (error) {
+      console.error(
+        "Load inventory error:",
+        error
+      );
+    }
+  };
+
+  loadInventory();
+}, []);
 
   const filteredItems = items.filter((item) => {
     const search = searchTerm.toLowerCase();
@@ -93,56 +90,130 @@ function Inventory() {
     });
   };
 
-  const handleAddItem = () => {
-    if (
-      !newItem.name ||
-      !newItem.supplier ||
-      newItem.quantity === "" ||
-      newItem.price === ""
-    ) {
-      alert("Please fill in all required fields.");
-      return;
+ const handleAddItem = async () => {
+  if (
+    !newItem.name ||
+    !newItem.supplier ||
+    newItem.quantity === "" ||
+    newItem.price === ""
+  ) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/inventory",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newItem.name,
+          category: newItem.category,
+          supplier: newItem.supplier,
+          quantity: Number(newItem.quantity),
+          unit: newItem.unit,
+          price: Number(newItem.price),
+          status: newItem.status,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to add inventory item."
+      );
     }
 
-    const item = {
-      id: `MED-${String(104 + items.length + 1).padStart(5, "0")}`,
-      name: newItem.name,
-      category: newItem.category,
-      supplier: newItem.supplier,
-      quantity: Number(newItem.quantity),
-      unit: newItem.unit,
-      price: Number(newItem.price),
-      status: newItem.status,
-    };
+    const savedItem = data.item || data;
 
-    setItems((currentItems) => [...currentItems, item]);
+    setItems((currentItems) => [
+      ...currentItems,
+      {
+        id: savedItem._id,
+        name: savedItem.name,
+        category: savedItem.category,
+        supplier: savedItem.supplier,
+        quantity: savedItem.quantity,
+        unit: savedItem.unit,
+        price: savedItem.price,
+        status: savedItem.status,
+      },
+    ]);
+
     resetForm();
     setShowModal(false);
-  };
 
-  const handleEditItem = () => {
-    if (
-      !newItem.name ||
-      !newItem.supplier ||
-      newItem.quantity === "" ||
-      newItem.price === ""
-    ) {
-      alert("Please fill in all required fields.");
-      return;
+    alert("Inventory item added successfully.");
+  } catch (error) {
+    console.error(
+      "Add inventory error:",
+      error
+    );
+
+    alert(
+      error.message ||
+        "Failed to add inventory item."
+    );
+  }
+};
+const handleEditItem = async () => {
+  if (
+    !newItem.name ||
+    !newItem.supplier ||
+    newItem.quantity === "" ||
+    newItem.price === ""
+  ) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/inventory/${editingItem.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newItem.name,
+          category: newItem.category,
+          supplier: newItem.supplier,
+          quantity: Number(newItem.quantity),
+          unit: newItem.unit,
+          price: Number(newItem.price),
+          status: newItem.status,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to update inventory item."
+      );
     }
+
+    const updatedItem = data.item || data;
 
     setItems((currentItems) =>
       currentItems.map((item) =>
         item.id === editingItem.id
           ? {
-              ...item,
-              name: newItem.name,
-              category: newItem.category,
-              supplier: newItem.supplier,
-              quantity: Number(newItem.quantity),
-              unit: newItem.unit,
-              price: Number(newItem.price),
-              status: newItem.status,
+              id: updatedItem._id,
+              name: updatedItem.name,
+              category: updatedItem.category,
+              supplier: updatedItem.supplier,
+              quantity: updatedItem.quantity,
+              unit: updatedItem.unit,
+              price: updatedItem.price,
+              status: updatedItem.status,
             }
           : item
       )
@@ -151,7 +222,20 @@ function Inventory() {
     resetForm();
     setEditingItem(null);
     setShowModal(false);
-  };
+
+    alert("Inventory item updated successfully.");
+  } catch (error) {
+    console.error(
+      "Update inventory error:",
+      error
+    );
+
+    alert(
+      error.message ||
+        "Failed to update inventory item."
+    );
+  }
+};
 
   const openAddModal = () => {
     setEditingItem(null);
@@ -186,7 +270,8 @@ function Inventory() {
       <div className="page-header">
         <div>
           <p className="page-eyebrow">INVENTORY MANAGEMENT</p>
-          <h2>Inventory</h2>
+         <h2 >Inventory</h2>
+        
           <p className="page-description">
             Manage medicines, stock levels and suppliers.
           </p>
@@ -240,7 +325,7 @@ function Inventory() {
 
           {filteredItems.map((item) => (
             <div className="patient-row" key={item.id}>
-              <div className="patient-name-cell">
+             <div className="patient-name-cell inventory-medicine-cell">
                 <div className="patient-avatar">
                   <Package size={18} />
                 </div>

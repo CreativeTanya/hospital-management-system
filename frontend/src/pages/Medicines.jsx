@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Search,
   Plus,
@@ -15,44 +15,8 @@ function Medicines() {
   const [viewingMedicine, setViewingMedicine] = useState(null);
   const [editingMedicine, setEditingMedicine] = useState(null);
 
-  const [medicines, setMedicines] = useState([
-    {
-      id: "MED-00101",
-      name: "Paracetamol",
-      category: "Pain Relief",
-      dosage: "500 mg",
-      stock: 250,
-      price: 2.5,
-      expiry: "Dec 2027",
-    },
-    {
-      id: "MED-00102",
-      name: "Amoxicillin",
-      category: "Antibiotic",
-      dosage: "500 mg",
-      stock: 85,
-      price: 8,
-      expiry: "Jun 2027",
-    },
-    {
-      id: "MED-00103",
-      name: "Cetirizine",
-      category: "Allergy",
-      dosage: "10 mg",
-      stock: 18,
-      price: 3,
-      expiry: "Mar 2027",
-    },
-    {
-      id: "MED-00104",
-      name: "Omeprazole",
-      category: "Gastric",
-      dosage: "20 mg",
-      stock: 7,
-      price: 5,
-      expiry: "Jan 2027",
-    },
-  ]);
+  const [medicines, setMedicines] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [newMedicine, setNewMedicine] = useState({
     name: "",
@@ -63,9 +27,48 @@ function Medicines() {
     expiry: "",
   });
 
-  // =========================
-  // STOCK STATUS
-  // =========================
+  {/* LOAD MEDICINES FROM MONGODB */}
+
+  useEffect(() => {
+    const loadMedicines = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/medicines"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to load medicines");
+        }
+
+        const data = await response.json();
+
+        console.log("Medicines from MongoDB:", data);
+
+        const formattedMedicines = data.map((medicine) => ({
+          id: medicine._id,
+          name: medicine.name,
+          category: medicine.category,
+          dosage: medicine.dosage,
+          stock: medicine.stock,
+          price: medicine.price,
+          expiry: medicine.expiryDate,
+        }));
+
+        setMedicines(formattedMedicines);
+      } catch (error) {
+        console.error(
+          "Failed to load medicines:",
+          error
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMedicines();
+  }, []);
+
+  {/* STOCK STATUS */}
 
   const getStockStatus = (stock) => {
     if (stock <= 10) {
@@ -79,36 +82,58 @@ function Medicines() {
     return "In Stock";
   };
 
-  // =========================
-  // FILTER MEDICINES
-  // =========================
+  {/*FILTER MEDICINES*/}
+  
+const totalMedicines = medicines.length;
 
-  const filteredMedicines = medicines.filter((medicine) => {
-    const search = searchTerm.toLowerCase();
+const lowStockMedicines = medicines.filter(
+  (medicine) => medicine.stock <= 10
+).length;
 
-    const matchesSearch =
-      `${medicine.name}
-       ${medicine.id}
-       ${medicine.category}
-       ${medicine.dosage}
-       ${medicine.stock}
-       ${medicine.price}
-       ${medicine.expiry}`
-        .toLowerCase()
-        .includes(search);
+const expiringMedicines = medicines.filter(
+  (medicine) => {
+    if (!medicine.expiry) return false;
 
-    const stockStatus = getStockStatus(medicine.stock);
+    const expiryDate = new Date(medicine.expiry);
 
-    const matchesStock =
-      stockFilter === "All" ||
-      stockStatus === stockFilter;
+    if (isNaN(expiryDate.getTime())) return false;
 
-    return matchesSearch && matchesStock;
-  });
+    const today = new Date();
 
-  // =========================
-  // RESET FORM
-  // =========================
+    const daysUntilExpiry =
+      (expiryDate - today) /
+      (1000 * 60 * 60 * 24);
+
+    return daysUntilExpiry <= 90;
+  }
+).length;
+  const filteredMedicines = medicines.filter(
+    (medicine) => {
+      const search = searchTerm.toLowerCase();
+
+      const matchesSearch =
+        `${medicine.name}
+         ${medicine.id}
+         ${medicine.category}
+         ${medicine.dosage}
+         ${medicine.stock}
+         ${medicine.price}
+         ${medicine.expiry}`
+          .toLowerCase()
+          .includes(search);
+
+      const stockStatus =
+        getStockStatus(medicine.stock);
+
+      const matchesStock =
+        stockFilter === "All" ||
+        stockStatus === stockFilter;
+
+      return matchesSearch && matchesStock;
+    }
+  );
+
+  {/* RESET FORM*/}
 
   const resetForm = () => {
     setNewMedicine({
@@ -121,9 +146,7 @@ function Medicines() {
     });
   };
 
-  // =========================
-  // ADD MODAL
-  // =========================
+  {/* ADD MODAL*/}
 
   const openAddModal = () => {
     setEditingMedicine(null);
@@ -131,9 +154,7 @@ function Medicines() {
     setShowModal(true);
   };
 
-  // =========================
-  // EDIT MODAL
-  // =========================
+  {/* EDIT MODAL*/}
 
   const openEditModal = (medicine) => {
     setEditingMedicine(medicine);
@@ -149,75 +170,93 @@ function Medicines() {
 
     setShowModal(true);
   };
+{/*SAVE MEDICINE*/}
 
-  // =========================
-  // SAVE MEDICINE
-  // =========================
+const handleSaveMedicine = async () => {
+  console.log("1. SAVE FUNCTION STARTED");
+  console.log("2. FORM DATA:", newMedicine);
 
-  const handleSaveMedicine = () => {
-    if (
-      !newMedicine.name ||
-      !newMedicine.dosage ||
-      !newMedicine.stock ||
-      !newMedicine.price ||
-      !newMedicine.expiry
-    ) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+  if (
+    newMedicine.name.trim() === "" ||
+    newMedicine.dosage.trim() === "" ||
+    newMedicine.stock === "" ||
+    newMedicine.price === "" ||
+    newMedicine.expiry.trim() === ""
+  ) {
+    console.log("3. VALIDATION FAILED");
+    alert("Please fill in all required fields.");
+    return;
+  }
 
-    // EDIT
-    if (editingMedicine) {
-      setMedicines((currentMedicines) =>
-        currentMedicines.map((medicine) =>
-          medicine.id === editingMedicine.id
-            ? {
-                ...medicine,
-                name: newMedicine.name,
-                category: newMedicine.category,
-                dosage: newMedicine.dosage,
-                stock: Number(newMedicine.stock),
-                price: Number(newMedicine.price),
-                expiry: newMedicine.expiry,
-              }
-            : medicine
-        )
+  console.log("3. VALIDATION PASSED");
+
+  const medicineData = {
+    name: newMedicine.name.trim(),
+    category: newMedicine.category,
+    dosage: newMedicine.dosage.trim(),
+    stock: Number(newMedicine.stock),
+    price: Number(newMedicine.price),
+    expiryDate: newMedicine.expiry.trim(),
+  };
+
+  console.log("4. MEDICINE DATA:", medicineData);
+
+  try {
+    console.log("5. SENDING POST REQUEST");
+
+    const response = await fetch(
+      "http://localhost:5000/api/medicines",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(medicineData),
+      }
+    );
+
+    console.log("6. RESPONSE RECEIVED:", response.status);
+
+    const savedMedicine = await response.json();
+
+    console.log("7. SERVER RESPONSE:", savedMedicine);
+
+    if (!response.ok) {
+      throw new Error(
+        savedMedicine.message ||
+          "Failed to add medicine."
       );
-
-      setEditingMedicine(null);
-      resetForm();
-      setShowModal(false);
-
-      return;
     }
-
-    // ADD
-    const newId = `MED-${String(
-      101 + medicines.length
-    ).padStart(5, "0")}`;
-
-    const medicine = {
-      id: newId,
-      name: newMedicine.name,
-      category: newMedicine.category,
-      dosage: newMedicine.dosage,
-      stock: Number(newMedicine.stock),
-      price: Number(newMedicine.price),
-      expiry: newMedicine.expiry,
-    };
 
     setMedicines((currentMedicines) => [
       ...currentMedicines,
-      medicine,
+      {
+        id: savedMedicine._id,
+        name: savedMedicine.name,
+        category: savedMedicine.category,
+        dosage: savedMedicine.dosage,
+        stock: savedMedicine.stock,
+        price: savedMedicine.price,
+        expiry: savedMedicine.expiryDate,
+      },
     ]);
+
+    alert("Medicine added successfully.");
 
     resetForm();
     setShowModal(false);
-  };
 
-  // =========================
-  // CLOSE MODAL
-  // =========================
+  } catch (error) {
+    console.error("8. SAVE MEDICINE ERROR:", error);
+
+    alert(
+      error.message ||
+        "Failed to save medicine."
+    );
+  }
+};
+
+  {/* CLOSE MODAL*/}
 
   const closeModal = () => {
     setShowModal(false);
@@ -240,7 +279,8 @@ function Medicines() {
           <h2>Medicines</h2>
 
           <p className="page-description">
-            Manage medicines, stock levels and expiry information.
+            Manage medicines, stock levels and
+            expiry information.
           </p>
         </div>
 
@@ -253,8 +293,72 @@ function Medicines() {
         </button>
 
       </div>
+      {/* PHARMACY OVERVIEW */}
 
-      {/* SEARCH + FILTER */}
+<div className="pharmacy-overview">
+
+  <div className="pharmacy-overview-content">
+
+    <p className="page-eyebrow">
+      PHARMACY OVERVIEW
+    </p>
+
+    <h3>Medicine Inventory Health</h3>
+
+    <p>
+      Monitor your medicines, stock levels and
+      upcoming expiry information.
+    </p>
+
+  </div>
+
+  <div className="pharmacy-stats">
+
+    <div className="pharmacy-stat-card">
+
+      <div className="pharmacy-stat-icon medicine-icon">
+        <Pill size={20} />
+      </div>
+
+      <div>
+        <span>Total Medicines</span>
+        <strong>{totalMedicines}</strong>
+      </div>
+
+    </div>
+
+    <div className="pharmacy-stat-card">
+
+      <div className="pharmacy-stat-icon warning-icon">
+        ⚠
+      </div>
+
+      <div>
+        <span>Low Stock</span>
+        <strong>{lowStockMedicines}</strong>
+      </div>
+
+    </div>
+
+    <div className="pharmacy-stat-card">
+
+      <div className="pharmacy-stat-icon expiry-icon">
+        ⏳
+      </div>
+
+      <div>
+        <span>Expiring Soon</span>
+        <strong>{expiringMedicines}</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+     {/* SEARCH + FILTER*/}
 
       <div className="patient-toolbar">
 
@@ -318,8 +422,6 @@ function Medicines() {
 
         <div className="patient-table">
 
-          {/* HEADER */}
-
           <div className="patient-row table-heading">
 
             <span>Medicine</span>
@@ -331,132 +433,140 @@ function Medicines() {
             <span>Action</span>
 
           </div>
+          {/* MEDICINE ROWS*/}
 
-          {/* ROWS */}
-
-          {filteredMedicines.map((medicine) => {
-
-            const stockStatus =
-              getStockStatus(medicine.stock);
-
-            return (
-              <div
-                className="patient-row"
-                key={medicine.id}
-              >
-
-                {/* MEDICINE */}
-
-                <div className="patient-name-cell">
-
-                  <div className="patient-avatar">
-
-                    <Pill size={18} />
-
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      {medicine.name}
-                    </strong>
-
-                    <small>
-                      {medicine.id}
-                    </small>
-
-                  </div>
-
-                </div>
-
-                {/* CATEGORY */}
-
-                <span>
-                  {medicine.category}
-                </span>
-
-                {/* DOSAGE */}
-
-                <span>
-                  {medicine.dosage}
-                </span>
-
-                {/* STOCK */}
-
-                <div>
-
-                  <strong>
-                    {medicine.stock}
-                  </strong>
-
-                  <small
-                    style={{
-                      display: "block",
-                      marginTop: "3px",
-                    }}
-                  >
-                    {stockStatus}
-                  </small>
-
-                </div>
-
-                {/* PRICE */}
-
-                <span>
-                  ₹{medicine.price}
-                </span>
-
-                {/* EXPIRY */}
-
-                <span>
-                  {medicine.expiry}
-                </span>
-
-                {/* ACTIONS */}
-
-                <div className="doctor-actions">
-
-                  <button
-                    className="view-btn"
-                    title="View medicine"
-                    onClick={() =>
-                      setViewingMedicine(medicine)
-                    }
-                  >
-                    <Eye size={15} />
-                  </button>
-
-                  <button
-                    className="edit-btn"
-                    title="Edit medicine"
-                    onClick={() =>
-                      openEditModal(medicine)
-                    }
-                  >
-                    <Pencil size={15} />
-                  </button>
-
-                </div>
-
-              </div>
-            );
-          })}
-
-          {/* NO RESULTS */}
-
-          {filteredMedicines.length === 0 && (
-
+          {loading && (
             <div className="no-results">
-              No medicines found.
+              Loading medicines...
             </div>
-
           )}
+
+          {!loading &&
+            filteredMedicines.map(
+              (medicine) => {
+
+                const stockStatus =
+                  getStockStatus(
+                    medicine.stock
+                  );
+
+                return (
+                  <div
+                    className="patient-row"
+                    key={medicine.id}
+                  >
+
+                    {/* MEDICINE */}
+
+                    <div className="patient-name-cell">
+
+                      <div className="patient-avatar">
+                        <Pill size={18} />
+                      </div>
+
+                      <div>
+
+                        <strong>
+                          {medicine.name}
+                        </strong>
+
+                        <small>
+                          {medicine.id}
+                        </small>
+
+                      </div>
+
+                    </div>
+
+                    {/* CATEGORY */}
+
+                    <span>
+                      {medicine.category}
+                    </span>
+
+                    {/* DOSAGE */}
+
+                    <span>
+                      {medicine.dosage}
+                    </span>
+
+                    {/* STOCK */}
+
+                    <div>
+
+                      <strong>
+                        {medicine.stock}
+                      </strong>
+
+                      <small
+                        style={{
+                          display: "block",
+                          marginTop: "3px",
+                        }}
+                      >
+                        {stockStatus}
+                      </small>
+
+                    </div>
+
+                    {/* PRICE */}
+
+                    <span>
+                      ₹{medicine.price}
+                    </span>
+
+                    {/* EXPIRY */}
+
+                    <span>
+                      {medicine.expiry}
+                    </span>
+
+                    {/* ACTIONS */}
+
+                    <div className="doctor-actions">
+
+                      <button
+                        className="view-btn"
+                        title="View medicine"
+                        onClick={() =>
+                          setViewingMedicine(
+                            medicine
+                          )
+                        }
+                      >
+                        <Eye size={15} />
+                      </button>
+
+                      <button
+                        className="edit-btn"
+                        title="Edit medicine"
+                        onClick={() =>
+                          openEditModal(
+                            medicine
+                          )
+                        }
+                      >
+                        <Pencil size={15} />
+                      </button>
+
+                    </div>
+
+                  </div>
+                );
+              }
+            )}
+
+          {!loading &&
+            filteredMedicines.length === 0 && (
+              <div className="no-results">
+                No medicines found.
+              </div>
+            )}
 
         </div>
 
       </div>
-
-      {/* ADD / EDIT MODAL */}
+      {/* ADD / EDIT MEDICINE MODAL */}
 
       {showModal && (
 
@@ -491,7 +601,7 @@ function Medicines() {
 
             <div className="patient-form">
 
-              {/* NAME */}
+              {/* MEDICINE NAME */}
 
               <div className="form-group">
 
@@ -582,8 +692,7 @@ function Medicines() {
                 />
 
               </div>
-
-              {/* STOCK + PRICE */}
+             {/* STOCK + PRICE*/}
 
               <div className="form-row">
 
@@ -680,9 +789,7 @@ function Medicines() {
           </div>
 
         </div>
-
       )}
-
       {/* VIEW MEDICINE */}
 
       {viewingMedicine && (

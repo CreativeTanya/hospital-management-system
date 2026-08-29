@@ -104,7 +104,14 @@ useEffect(() => {
     status: "Pending",
   });
  
-const handleDeleteReport = async (id) => {
+const handleDeleteReport = async (report) => {
+  const reportId = report._id || report.id;
+
+  if (!reportId) {
+    alert("Report ID not found.");
+    return;
+  }
+
   const confirmDelete = window.confirm(
     "Are you sure you want to delete this report?"
   );
@@ -113,7 +120,7 @@ const handleDeleteReport = async (id) => {
 
   try {
     const response = await fetch(
-      `http://localhost:5000/api/ai-report/${id}`,
+      `http://localhost:5000/api/ai-report/${reportId}`,
       {
         method: "DELETE",
       }
@@ -128,15 +135,16 @@ const handleDeleteReport = async (id) => {
       );
     }
 
-    // Remove ONLY the deleted report from the current list
     setReports((currentReports) =>
       currentReports.filter(
-        (report) => report.id !== id
+        (item) => (item._id || item.id) !== reportId
       )
     );
 
-    // Close view modal if the deleted report was open
-    if (viewingReport?.id === id) {
+    if (
+      viewingReport &&
+      (viewingReport._id || viewingReport.id) === reportId
+    ) {
       setViewingReport(null);
     }
 

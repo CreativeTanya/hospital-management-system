@@ -615,7 +615,7 @@ This is an educational demonstration and does not provide diagnosis or replace p
             </strong>
 
             <span>
-              PDF, JPG, PNG or TXT
+              PDF or TXT
             </span>
 
           </label>

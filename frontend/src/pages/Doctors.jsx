@@ -341,155 +341,174 @@ const handleDeleteDoctor = async (doctor) => {
 
       {/* Doctor Table */}
 
-      <div className="patient-table-card">
+     {/* Doctor Directory */}
 
-        <div className="patient-table-header">
+<div className="patient-table-card">
 
-          <h3>Doctor Records</h3>
+  <div className="patient-table-header">
 
-          <span>
-            {filteredDoctors.length} doctors
-          </span>
+    <div>
+      <h3>Doctor Directory</h3>
 
-        </div>
+      <span>
+        {filteredDoctors.length} doctors
+      </span>
+    </div>
 
-        {loading ? (
+  </div>
 
-          <div className="patient-loading">
-            Loading doctors...
+  {loading ? (
+
+    <div className="patient-loading">
+      Loading doctors...
+    </div>
+
+  ) : error ? (
+
+    <div className="patient-error">
+
+      {error}
+
+      <button onClick={fetchDoctors}>
+        Retry
+      </button>
+
+    </div>
+
+  ) : (
+
+    <div className="doctor-card-grid">
+
+      {filteredDoctors.map((doctor) => (
+
+        <div
+          className="doctor-card"
+          key={doctor._id}
+        >
+
+          {/* Doctor Photo */}
+
+          <div className="doctor-card-photo">
+
+            <div className="doctor-photo-placeholder">
+              <UserRound size={42} />
+            </div>
+
+            <span
+              className={`doctor-card-status ${
+                doctor.status === "Available"
+                  ? "available"
+                  : doctor.status === "Busy"
+                  ? "busy"
+                  : "leave"
+              }`}
+            >
+              {doctor.status}
+            </span>
+
           </div>
 
-        ) : error ? (
+          {/* Doctor Information */}
 
-          <div className="patient-error">
+          <div className="doctor-card-body">
 
-            {error}
+            <h3>
+              {doctor.name}
+            </h3>
 
-            <button onClick={fetchDoctors}>
-              Retry
+            <p className="doctor-specialization">
+              {doctor.specialization}
+            </p>
+
+            <div className="doctor-card-details">
+
+              <div>
+                <span>Department</span>
+                <strong>
+                  {doctor.department}
+                </strong>
+              </div>
+
+              <div>
+                <span>Experience</span>
+                <strong>
+                  {doctor.experience} years
+                </strong>
+              </div>
+
+              <div>
+                <span>Doctor ID</span>
+                <strong>
+                  {doctor._id.slice(-8)}
+                </strong>
+              </div>
+
+              <div>
+                <span>Phone</span>
+                <strong>
+                  {doctor.phone}
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Actions */}
+
+          <div className="doctor-card-actions">
+
+            <button
+              className="view-btn"
+              onClick={() =>
+                setViewingDoctor(doctor)
+              }
+              title="View doctor"
+            >
+              <Eye size={15} />
+              View
+            </button>
+
+            <button
+              className="edit-btn"
+              onClick={() =>
+                openEditModal(doctor)
+              }
+              title="Edit doctor"
+            >
+              <Pencil size={15} />
+              Edit
+            </button>
+
+            <button
+              className="delete-btn"
+              onClick={() =>
+                handleDeleteDoctor(doctor)
+              }
+              title="Delete doctor"
+            >
+              <Trash2 size={15} />
             </button>
 
           </div>
 
-        ) : (
+        </div>
 
-          <div className="patient-table">
+      ))}
 
-            <div className="patient-row table-heading">
+      {filteredDoctors.length === 0 && (
 
-              <span>Doctor</span>
-              <span>Doctor ID</span>
-              <span>Specialization</span>
-              <span>Department</span>
-              <span>Experience</span>
-              <span>Status</span>
-              <span>Action</span>
+        <div className="no-results">
+          No doctors found.
+        </div>
 
-            </div>
+      )}
 
-            {filteredDoctors.map((doctor) => (
+    </div>
 
-              <div
-                className="patient-row"
-                key={doctor._id}
-              >
+  )}
 
-                <div className="patient-name-cell">
-
-                  <div className="patient-avatar">
-                    <UserRound size={18} />
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      {doctor.name}
-                    </strong>
-
-                    <small>
-                      {doctor.phone}
-                    </small>
-
-                  </div>
-
-                </div>
-
-                <span className="patient-id">
-                  {doctor._id.slice(-8)}
-                </span>
-
-                <span>
-                  {doctor.specialization}
-                </span>
-
-                <span>
-                  {doctor.department}
-                </span>
-
-                <span>
-                  {doctor.experience} years
-                </span>
-
-                <span
-                  className={`patient-status ${
-                    doctor.status === "Available"
-                      ? "active"
-                      : "inactive"
-                  }`}
-                >
-                  {doctor.status}
-                </span>
-
-                <div className="doctor-actions">
-
-                  <button
-                    className="view-btn"
-                    onClick={() =>
-                      setViewingDoctor(doctor)
-                    }
-                    title="View doctor"
-                  >
-                    <Eye size={15} />
-                  </button>
-
-                  <button
-                    className="edit-btn"
-                    onClick={() =>
-                      openEditModal(doctor)
-                    }
-                    title="Edit doctor"
-                  >
-                    <Pencil size={15} />
-                  </button>
-                  <button
-  className="delete-btn"
-  onClick={() =>
-    handleDeleteDoctor(doctor)
-  }
-  title="Delete doctor"
->
-  <Trash2 size={15} />
-</button>
-                </div>
-
-              </div>
-
-            ))}
-
-            {filteredDoctors.length === 0 && (
-
-              <div className="no-results">
-                No doctors found.
-              </div>
-
-            )}
-
-          </div>
-
-        )}
-
-      </div>
-
+</div>
       {/* Add / Edit Modal */}
 
       {showModal && (

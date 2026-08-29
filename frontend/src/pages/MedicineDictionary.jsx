@@ -4,6 +4,7 @@ import {
   Search,
   Pill,
   Info,
+  ChevronDown,
 } from "lucide-react";
 
 const medicines = [
@@ -131,12 +132,24 @@ const medicines = [
 
 function MedicineDictionary() {
   const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const filteredMedicines = medicines.filter((medicine) =>
-    `${medicine.name} ${medicine.category} ${medicine.uses}`
+  const categories = [
+    "All",
+    ...new Set(medicines.map((medicine) => medicine.category)),
+  ];
+
+  const filteredMedicines = medicines.filter((medicine) => {
+    const matchesSearch = `${medicine.name} ${medicine.category} ${medicine.uses}`
       .toLowerCase()
-      .includes(search.toLowerCase())
-  );
+      .includes(search.toLowerCase());
+
+    const matchesCategory =
+      categoryFilter === "All" ||
+      medicine.category === categoryFilter;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="medicine-page">
@@ -186,18 +199,44 @@ function MedicineDictionary() {
 
         </div>
 
-        {/* Search */}
+        {/* Search + Category Filter */}
 
-        <div className="medicine-search">
+        <div className="medicine-filter-row">
 
-          <Search size={19} />
+          <div className="medicine-search">
 
-          <input
-            type="text"
-            placeholder="Search medicine, category or use..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+            <Search size={19} />
+
+            <input
+              type="text"
+              placeholder="Search medicine, category or use..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+          </div>
+
+          <div className="medicine-category-filter">
+
+            <select
+              value={categoryFilter}
+              onChange={(e) =>
+                setCategoryFilter(e.target.value)
+              }
+            >
+              {categories.map((category) => (
+                <option
+                  key={category}
+                  value={category}
+                >
+                  {category}
+                </option>
+              ))}
+            </select>
+
+            <ChevronDown size={16} />
+
+          </div>
 
         </div>
 
@@ -272,7 +311,9 @@ function MedicineDictionary() {
               <Search size={24} />
             </div>
 
-            <h3>No medicine found</h3>
+            <h3>
+              No medicine found
+            </h3>
 
             <p>
               Try another medicine name or category.

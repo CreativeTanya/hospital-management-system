@@ -388,9 +388,7 @@ function Patients() {
                       {patient.name}
                     </strong>
 
-                    <small>
-                      {patient._id.slice(-8)}
-                    </small>
+                   
 
                   </div>
 
