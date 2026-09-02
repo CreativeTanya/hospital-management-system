@@ -4,26 +4,32 @@
    ========================================================= */
 
 @media (max-width: 850px) {
-  /* ---------- SLIM SIDEBAR ---------- */
+  /* ---------- MINI-LAPTOP SHELL ---------- */
+  .app {
+    min-width: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
   .sidebar {
     position: fixed !important;
     left: 0 !important;
     top: 0 !important;
     bottom: 0 !important;
-    width: 58px !important;
-    min-width: 58px !important;
+    width: 62px !important;
+    min-width: 62px !important;
     height: 100vh !important;
     min-height: 0 !important;
-    padding: 10px 5px !important;
+    padding: 10px 6px !important;
     overflow: hidden !important;
     z-index: 1000 !important;
   }
 
   .sidebar-brand {
-    width: 48px !important;
-    height: 40px !important;
+    width: 50px !important;
+    height: 42px !important;
     padding: 0 !important;
-    margin: 0 auto 7px !important;
+    margin: 0 auto 8px !important;
     justify-content: center !important;
   }
 
@@ -42,16 +48,16 @@
   }
 
   .sidebar-section {
-    width: 48px !important;
+    width: 50px !important;
     margin: 0 auto 5px !important;
     padding: 0 !important;
   }
 
   .menu-item {
-    width: 44px !important;
-    height: 38px !important;
-    min-height: 38px !important;
-    max-height: 38px !important;
+    width: 46px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
     margin: 2px auto !important;
     padding: 0 !important;
     justify-content: center !important;
@@ -62,13 +68,13 @@
   .menu-item svg { width: 18px !important; height: 18px !important; }
 
   .sidebar-footer {
-    width: 48px !important;
+    width: 50px !important;
     margin: 4px auto 0 !important;
     padding: 0 !important;
   }
 
   .sidebar-footer-item {
-    width: 44px !important;
+    width: 46px !important;
     height: 34px !important;
     min-height: 34px !important;
     margin: 2px auto !important;
@@ -77,46 +83,43 @@
   }
 
   .system-status {
-    width: 44px !important;
+    width: 46px !important;
     height: 20px !important;
     margin: 2px auto 0 !important;
     justify-content: center !important;
   }
 
-  /* ---------- MAIN CONTENT ---------- */
+  /* ---------- MAIN AREA: same desktop structure, simply compact ---------- */
   .main-content {
-    width: calc(100% - 58px) !important;
+    width: calc(100% - 62px) !important;
     min-width: 0 !important;
-    margin-left: 58px !important;
-    padding: 12px 8px 28px !important;
+    margin-left: 62px !important;
+    padding: 16px 12px 30px !important;
     overflow-x: hidden !important;
   }
 
-  /* ---------- DASHBOARD HEADER ---------- */
-  .dashboard-main .topbar {
-    min-height: 145px !important;
-    margin-bottom: 22px !important;
-    padding-top: 28px !important;
+  /* ---------- HEADER ---------- */
+  .topbar {
+    min-height: 150px !important;
+    margin-bottom: 20px !important;
   }
 
-  /* Search is fixed by the desktop CSS; override it only on mobile. */
   .dashboard-main .topbar-actions {
     position: absolute !important;
-    top: 4px !important;
+    top: 0 !important;
     right: 0 !important;
     left: auto !important;
-    width: auto !important;
     display: flex !important;
     justify-content: flex-end !important;
     z-index: 20 !important;
   }
 
   .dashboard-main .topbar-actions .search-box {
-    width: min(43vw, 175px) !important;
-    max-width: 175px !important;
-    min-width: 0 !important;
+    width: min(38vw, 180px) !important;
+    max-width: 180px !important;
+    min-width: 115px !important;
     height: 34px !important;
-    padding: 0 8px !important;
+    padding: 0 9px !important;
     gap: 6px !important;
   }
 
@@ -131,36 +134,47 @@
     height: 14px !important;
   }
 
-  /* Move the dashboard heading below the search/stats area so they never overlap. */
   .dashboard-main .topbar h1,
   .dashboard-main .topbar h2,
   .dashboard-main .topbar .page-title,
   .dashboard-main .topbar .dashboard-title {
     position: relative !important;
-    top: 22px !important;
+    top: 24px !important;
   }
 
-  /* ---------- DASHBOARD STATS: three horizontal desktop-like cards ---------- */
+  /* ---------- DASHBOARD STATS: compact desktop-like cards ---------- */
   .dashboard-main .stats-grid {
+    width: 84% !important;
+    max-width: 330px !important;
+    margin: 20px auto 18px !important;
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 7px !important;
-    margin-top: 18px !important;
-    margin-bottom: 18px !important;
+    gap: 8px !important;
   }
 
   .dashboard-main .stat-card {
-    min-height: 76px !important;
-    padding: 9px !important;
-    gap: 6px !important;
+    min-width: 0 !important;
+    min-height: 78px !important;
+    height: 78px !important;
+    padding: 8px 6px !important;
+    gap: 5px !important;
     border-radius: 11px !important;
   }
 
+  .dashboard-main .stat-card h2,
   .dashboard-main .stat-card h3,
-  .dashboard-main .stat-card strong { font-size: 13px !important; }
-  .dashboard-main .stat-card p,
-  .dashboard-main .stat-card span { font-size: 7.5px !important; }
+  .dashboard-main .stat-card strong {
+    font-size: 13px !important;
+    line-height: 1.05 !important;
+  }
 
-  /* ---------- ALL TABLES: one horizontal desktop-style table, no vertical stacking ---------- */
+  .dashboard-main .stat-card span,
+  .dashboard-main .stat-card p {
+    font-size: 7px !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+  }
+
+  /* ---------- TABLES: mini-laptop horizontal layout ---------- */
   .patient-table,
   .doctor-table,
   .appointment-table,
@@ -189,17 +203,16 @@
     min-width: 0 !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-    gap: 2px !important;
-    padding: 6px 3px !important;
+    gap: 3px !important;
+    padding: 7px 4px !important;
     align-items: center !important;
   }
 
-  /* Exact number of columns for every table. */
-  .patient-row { grid-template-columns: 1.45fr .72fr .72fr 1fr 1fr .68fr .78fr !important; }
-  .doctor-row { grid-template-columns: 1.35fr .88fr .92fr .82fr .68fr .68fr .72fr !important; }
-  .appointment-row { grid-template-columns: .86fr 1.15fr .98fr .94fr .72fr .68fr !important; }
-  .prescription-row { grid-template-columns: 1.08fr .98fr .88fr .82fr .76fr .68fr !important; }
-  .billing-row { grid-template-columns: 1.12fr .88fr 1fr .68fr .78fr .72fr .68fr !important; }
+  .patient-row { grid-template-columns: 1.55fr .78fr .82fr 1.08fr 1.02fr .72fr .78fr !important; }
+  .doctor-row { grid-template-columns: 1.45fr .92fr 1fr .88fr .72fr .72fr .76fr !important; }
+  .appointment-row { grid-template-columns: .9fr 1.2fr 1fr 1fr .75fr .7fr !important; }
+  .prescription-row { grid-template-columns: 1.15fr 1.05fr .9fr .86fr .78fr .7fr !important; }
+  .billing-row { grid-template-columns: 1.18fr .92fr 1.04fr .72fr .8fr .75fr .72fr !important; }
   .medical-report-row { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
   .medicine-row { grid-template-columns: repeat(7, minmax(0, 1fr)) !important; }
   .inventory-row { grid-template-columns: repeat(7, minmax(0, 1fr)) !important; }
@@ -215,7 +228,7 @@
     min-width: 0 !important;
     max-width: 100% !important;
     width: auto !important;
-    font-size: 7px !important;
+    font-size: 8px !important;
     line-height: 1.2 !important;
     white-space: normal !important;
     overflow: hidden !important;
@@ -232,8 +245,9 @@
   .medical-report-row.table-heading,
   .medicine-row.table-heading,
   .inventory-row.table-heading {
-    font-size: 6.5px !important;
+    font-size: 7.5px !important;
     line-height: 1.05 !important;
+    white-space: nowrap !important;
   }
 
   .patient-row .patient-avatar { display: none !important; }
@@ -244,8 +258,8 @@
     overflow: hidden !important;
   }
 
-  .patient-name-cell strong { font-size: 7px !important; }
-  .patient-name-cell small { font-size: 6px !important; }
+  .patient-name-cell strong { font-size: 8px !important; }
+  .patient-name-cell small { font-size: 7px !important; }
 
   .patient-actions,
   .doctor-actions {
@@ -254,56 +268,54 @@
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    gap: 1px !important;
+    gap: 2px !important;
     overflow: hidden !important;
   }
 
   .patient-actions button,
   .doctor-actions button {
-    width: 15px !important;
-    height: 15px !important;
-    min-width: 15px !important;
-    min-height: 15px !important;
+    width: 17px !important;
+    height: 17px !important;
+    min-width: 17px !important;
+    min-height: 17px !important;
     padding: 0 !important;
-    flex: 0 0 15px !important;
+    flex: 0 0 17px !important;
   }
 
   .patient-actions button svg,
-  .doctor-actions button svg { width: 9px !important; height: 9px !important; }
+  .doctor-actions button svg { width: 10px !important; height: 10px !important; }
 
-  /* ---------- MEDICAL DECORATIONS: visible on BOTH sides of dashboard ---------- */
+  /* ---------- DECORATIONS: both sides, behind content ---------- */
   .dashboard-main .dashboard-decorations {
     display: block !important;
     position: fixed !important;
     inset: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    z-index: 2 !important;
+    z-index: 0 !important;
     pointer-events: none !important;
   }
 
   .dashboard-main .dashboard-decorations .deco {
     position: fixed !important;
     display: inline-block !important;
-    font-size: 17px !important;
-    opacity: .45 !important;
-    z-index: 2 !important;
+    font-size: 18px !important;
+    opacity: .42 !important;
+    z-index: 0 !important;
     pointer-events: none !important;
   }
 
-  /* Left side: immediately beside the sidebar. */
-  .dashboard-main .dashboard-decorations .d1 { left: 61px !important; top: 13% !important; }
-  .dashboard-main .dashboard-decorations .d3 { left: 61px !important; top: 31% !important; }
-  .dashboard-main .dashboard-decorations .d5 { left: 61px !important; top: 49% !important; }
-  .dashboard-main .dashboard-decorations .d7 { left: 61px !important; top: 67% !important; }
-  .dashboard-main .dashboard-decorations .d9 { left: 61px !important; top: 85% !important; }
+  .dashboard-main .dashboard-decorations .d1 { left: 66px !important; top: 14% !important; }
+  .dashboard-main .dashboard-decorations .d3 { left: 66px !important; top: 32% !important; }
+  .dashboard-main .dashboard-decorations .d5 { left: 66px !important; top: 50% !important; }
+  .dashboard-main .dashboard-decorations .d7 { left: 66px !important; top: 68% !important; }
+  .dashboard-main .dashboard-decorations .d9 { left: 66px !important; top: 86% !important; }
 
-  /* Right side. */
-  .dashboard-main .dashboard-decorations .d11 { right: 7px !important; left: auto !important; top: 13% !important; }
-  .dashboard-main .dashboard-decorations .d13 { right: 7px !important; left: auto !important; top: 31% !important; }
-  .dashboard-main .dashboard-decorations .d15 { right: 7px !important; left: auto !important; top: 49% !important; }
-  .dashboard-main .dashboard-decorations .d17 { right: 7px !important; left: auto !important; top: 67% !important; }
-  .dashboard-main .dashboard-decorations .d19 { right: 7px !important; left: auto !important; top: 85% !important; }
+  .dashboard-main .dashboard-decorations .d11 { right: 8px !important; left: auto !important; top: 14% !important; }
+  .dashboard-main .dashboard-decorations .d13 { right: 8px !important; left: auto !important; top: 32% !important; }
+  .dashboard-main .dashboard-decorations .d15 { right: 8px !important; left: auto !important; top: 50% !important; }
+  .dashboard-main .dashboard-decorations .d17 { right: 8px !important; left: auto !important; top: 68% !important; }
+  .dashboard-main .dashboard-decorations .d19 { right: 8px !important; left: auto !important; top: 86% !important; }
 
   .dashboard-main .dashboard-decorations .d2,
   .dashboard-main .dashboard-decorations .d4,
@@ -318,7 +330,7 @@
 
   .dashboard-main > *:not(.dashboard-decorations) {
     position: relative !important;
-    z-index: 3 !important;
+    z-index: 1 !important;
   }
 
   /* ---------- MODALS ---------- */
@@ -336,8 +348,8 @@
   }
 
   .modal-overlay .patient-modal {
-    width: min(88vw, 350px) !important;
-    max-width: 350px !important;
+    width: min(88vw, 360px) !important;
+    max-width: 360px !important;
     min-width: 0 !important;
     max-height: 84vh !important;
     margin: auto !important;
@@ -352,21 +364,39 @@
   .modal-overlay .patient-details-profile { gap: 8px !important; }
   .modal-overlay .patient-details-avatar { width: 40px !important; height: 40px !important; min-width: 40px !important; }
   .modal-overlay .patient-details-profile h2 { font-size: 14px !important; }
-  .modal-overlay .patient-details-profile p { font-size: 7px !important; }
+  .modal-overlay .patient-details-profile p { font-size: 8px !important; }
   .modal-overlay .details-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 6px !important; margin-top: 10px !important; }
   .modal-overlay .detail-item { min-width: 0 !important; padding: 8px !important; overflow: hidden !important; }
-  .modal-overlay .detail-item span { font-size: 7px !important; }
-  .modal-overlay .detail-item strong { font-size: 8px !important; overflow-wrap: anywhere !important; word-break: break-word !important; }
+  .modal-overlay .detail-item span { font-size: 8px !important; }
+  .modal-overlay .detail-item strong { font-size: 9px !important; overflow-wrap: anywhere !important; word-break: break-word !important; }
 }
 
-@media (max-width: 380px) {
-  .sidebar { width: 52px !important; min-width: 52px !important; }
-  .main-content { width: calc(100% - 52px) !important; margin-left: 52px !important; padding-left: 6px !important; padding-right: 6px !important; }
-  .dashboard-main .topbar-actions .search-box { width: min(42vw, 150px) !important; max-width: 150px !important; }
+@media (max-width: 480px) {
+  .sidebar { width: 58px !important; min-width: 58px !important; }
+  .main-content { width: calc(100% - 58px) !important; margin-left: 58px !important; padding-left: 8px !important; padding-right: 8px !important; }
+  .dashboard-main .stats-grid { width: 86% !important; max-width: 290px !important; gap: 6px !important; }
+  .dashboard-main .stat-card { height: 70px !important; min-height: 70px !important; padding: 6px 4px !important; }
+  .dashboard-main .stat-card h2 { font-size: 12px !important; }
+  .dashboard-main .stat-card span { font-size: 6.5px !important; }
   .dashboard-main .dashboard-decorations .d1,
   .dashboard-main .dashboard-decorations .d3,
   .dashboard-main .dashboard-decorations .d5,
   .dashboard-main .dashboard-decorations .d7,
-  .dashboard-main .dashboard-decorations .d9 { left: 55px !important; }
-  .modal-overlay .patient-modal { width: 91vw !important; max-width: 325px !important; }
+  .dashboard-main .dashboard-decorations .d9 { left: 62px !important; }
+}
+
+@media (max-width: 380px) {
+  .sidebar { width: 54px !important; min-width: 54px !important; }
+  .main-content { width: calc(100% - 54px) !important; margin-left: 54px !important; padding-left: 6px !important; padding-right: 6px !important; }
+  .dashboard-main .topbar-actions .search-box { width: min(40vw, 145px) !important; max-width: 145px !important; }
+  .dashboard-main .stats-grid { width: 88% !important; max-width: 270px !important; gap: 5px !important; }
+  .dashboard-main .stat-card { height: 64px !important; min-height: 64px !important; padding: 5px 3px !important; }
+  .dashboard-main .stat-card h2 { font-size: 11px !important; }
+  .dashboard-main .stat-card span { font-size: 6px !important; }
+  .dashboard-main .dashboard-decorations .d1,
+  .dashboard-main .dashboard-decorations .d3,
+  .dashboard-main .dashboard-decorations .d5,
+  .dashboard-main .dashboard-decorations .d7,
+  .dashboard-main .dashboard-decorations .d9 { left: 58px !important; }
+  .modal-overlay .patient-modal { width: 91vw !important; max-width: 330px !important; }
 }
