@@ -70,7 +70,6 @@
   .menu-item svg { display: block !important; visibility: visible !important; opacity: 1 !important; width: 18px !important; height: 18px !important; flex: 0 0 18px !important; }
 
   /* ---------- VIEW/DETAILS POPUP ---------- */
-  /* Keep the popup content exactly the same; only shrink and reposition the outer box so the sidebar cannot cover it. */
   .modal-overlay .patient-modal:not(:has(.patient-form)) {
     width: calc(100vw - 120px) !important;
     max-width: calc(100vw - 120px) !important;
@@ -79,9 +78,9 @@
     transform: translateX(30px) !important;
   }
 
-  /* Shift the actual Status value in every view/details popup 10px left. */
-  .modal-overlay .patient-modal:not(:has(.patient-form)) .details-grid .detail-item > strong[class*="status"] {
-    transform: translateX(-10px) !important;
+  /* Shift only the Status value inside view/details popups 4px right from the previous position. */
+  .modal-overlay .patient-modal:not(:has(.patient-form)) .details-grid .detail-item:last-child > strong {
+    transform: translateX(-6px) !important;
   }
 }
 @media (max-width: 480px) {
