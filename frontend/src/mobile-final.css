@@ -16,10 +16,8 @@
   .dashboard-main .dashboard-title::after { content: "Your hospital at a glance"; display: block !important; margin-top: 5px !important; color: #8b96a7 !important; font-size: 9px !important; font-weight: 500 !important; letter-spacing: 0.2px !important; white-space: nowrap !important; text-align: center !important; }
   .dashboard-main .stats-grid { position: relative !important; z-index: 4 !important; margin-top: 12px !important; }
 
-  /* ---------- TABLE VIEWPORT ----------
-     The card stays the same. Only the table becomes the horizontal
-     scrolling surface so no column/action is clipped by the card. */
-  .patient-table-card { max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; overflow: visible !important; }
+  /* ---------- TABLE VIEWPORT ---------- */
+  .patient-table-card { max-width: 100% !important; min-width: 0 !important; box-sizing: border-box !important; overflow: hidden !important; }
   .patient-table-card .patient-table,
   .patient-table,
   .doctor-table,
