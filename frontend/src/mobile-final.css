@@ -22,7 +22,7 @@
   .dashboard-main .dashboard-title::after {
     content: "Your hospital at a glance";
     display: block !important;
-    margin-top: 5px !important;
+    margin-top: 8px !important;
     color: #8b96a7 !important;
     font-size: 9px !important;
     font-weight: 500 !important;
@@ -48,7 +48,7 @@
     align-items: center !important; gap: 5px !important; padding: 7px 8px !important;
   }
 
-  .patient-row { min-width: 700px !important; grid-template-columns: 150px 86px 90px 112px 108px 70px 68px !important; }
+  .patient-row { min-width: 700px !important; grid-template-columns: 125px 86px 90px 112px 108px 70px 68px !important; }
   .doctor-row { min-width: 705px !important; grid-template-columns: 145px 98px 105px 100px 78px 78px 68px !important; }
   .appointment-row { min-width: 690px !important; grid-template-columns: 105px 135px 118px 118px 88px 68px !important; }
   .prescription-row { min-width: 735px !important; grid-template-columns: 145px 130px 105px 92px 82px 76px 70px !important; }
@@ -73,13 +73,14 @@
 
   .patient-row .patient-name-cell {
     display: flex !important; align-items: center !important; gap: 7px !important;
-    width: 100% !important; min-width: 0 !important; overflow: hidden !important;
+    width: 100% !important; min-width: 0 !important; overflow: visible !important;
+    position: relative !important; z-index: 2 !important;
   }
   .patient-row .patient-avatar {
     display: flex !important; align-items: center !important; justify-content: center !important;
     visibility: visible !important; opacity: 1 !important;
     width: 28px !important; height: 28px !important; min-width: 28px !important; flex: 0 0 28px !important;
-    border-radius: 50% !important; overflow: visible !important;
+    border-radius: 50% !important; overflow: visible !important; position: relative !important; z-index: 3 !important;
   }
   .patient-row .patient-avatar svg { width: 16px !important; height: 16px !important; display: block !important; visibility: visible !important; opacity: 1 !important; }
   .patient-row .patient-name-cell > div:last-child { min-width: 0 !important; overflow: hidden !important; }
@@ -157,7 +158,7 @@
   .dashboard-main .topbar-actions .search-box { width: 132px !important; min-width: 132px !important; max-width: 132px !important; }
   .dashboard-main .dashboard-brand { top: 46px !important; }
   .dashboard-main .medicare-logo { font-size: 24px !important; }
-  .dashboard-main .dashboard-title { top: 103px !important; }
+  .dashboard-main .dashboard-title { top: 110px !important; }
   .dashboard-main .dashboard-title h1 { font-size: 19px !important; }
   .patient-row { min-width: 700px !important; }
   .doctor-row { min-width: 705px !important; }
