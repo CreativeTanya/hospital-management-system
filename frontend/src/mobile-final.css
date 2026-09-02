@@ -1,0 +1,146 @@
+/* FINAL MOBILE-ONLY POLISH
+   Loaded after all existing responsive CSS.
+   Nothing here applies above 850px. */
+@media (max-width: 850px) {
+  /* Header: search gets its own row so it can never overlap MediCare. */
+  .dashboard-main .topbar { min-height: 175px !important; position: relative !important; }
+  .dashboard-main .topbar-actions {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: auto !important;
+    z-index: 30 !important;
+  }
+  .dashboard-main .topbar-actions .search-box {
+    width: 145px !important;
+    min-width: 145px !important;
+    max-width: 145px !important;
+    height: 32px !important;
+    font-size: 9px !important;
+  }
+  .dashboard-main .dashboard-brand {
+    top: 48px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 5 !important;
+    white-space: nowrap !important;
+  }
+  .dashboard-main .medicare-logo { font-size: 27px !important; }
+  .dashboard-main .medicare-tagline { font-size: 7px !important; margin-top: 5px !important; }
+  .dashboard-main .dashboard-title {
+    top: 112px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .dashboard-main .dashboard-title h1 { font-size: 22px !important; }
+  .dashboard-main .dashboard-title .welcome { font-size: 9px !important; margin-bottom: 4px !important; }
+  .dashboard-main .dashboard-subtitle { font-size: 8px !important; }
+
+  /* Keep stats below the header instead of covering the brand. */
+  .dashboard-main .stats-grid {
+    position: relative !important;
+    z-index: 4 !important;
+    margin-top: 12px !important;
+  }
+
+  /* Tables: allow a small, controlled horizontal scroll. Never squeeze columns
+     until their headings/data overlap. */
+  .patient-table,
+  .doctor-table,
+  .appointment-table,
+  .prescription-table,
+  .billing-table,
+  .medical-report-table,
+  .medicine-table,
+  .inventory-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+  }
+
+  .patient-row,
+  .doctor-row,
+  .appointment-row,
+  .prescription-row,
+  .billing-row,
+  .medical-report-row,
+  .medicine-row,
+  .inventory-row {
+    width: max-content !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+    gap: 6px !important;
+    padding: 8px 8px !important;
+    display: grid !important;
+    align-items: center !important;
+  }
+
+  .patient-row { min-width: 720px !important; grid-template-columns: 150px 90px 92px 120px 115px 72px 65px !important; }
+  .doctor-row { min-width: 740px !important; grid-template-columns: 145px 105px 110px 105px 82px 82px 75px !important; }
+  .appointment-row { min-width: 690px !important; grid-template-columns: 105px 145px 125px 120px 90px 70px !important; }
+  .prescription-row { min-width: 700px !important; grid-template-columns: 135px 125px 105px 105px 90px 70px !important; }
+  .billing-row { min-width: 735px !important; grid-template-columns: 125px 105px 125px 80px 90px 95px 75px !important; }
+  .medical-report-row { min-width: 680px !important; grid-template-columns: repeat(6, 1fr) !important; }
+  .medicine-row { min-width: 720px !important; grid-template-columns: repeat(7, 1fr) !important; }
+  .inventory-row { min-width: 720px !important; grid-template-columns: repeat(7, 1fr) !important; }
+
+  .patient-row > *,
+  .doctor-row > *,
+  .appointment-row > *,
+  .prescription-row > *,
+  .billing-row > *,
+  .medical-report-row > *,
+  .medicine-row > *,
+  .inventory-row > * {
+    min-width: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    font-size: 8.5px !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+
+  .patient-row.table-heading,
+  .doctor-row.table-heading,
+  .appointment-row.table-heading,
+  .prescription-row.table-heading,
+  .billing-row.table-heading,
+  .medical-report-row.table-heading,
+  .medicine-row.table-heading,
+  .inventory-row.table-heading {
+    font-size: 8px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  .patient-name-cell strong { font-size: 8.5px !important; }
+  .patient-name-cell small { font-size: 7px !important; }
+  .patient-actions, .doctor-actions { overflow: visible !important; gap: 3px !important; }
+  .patient-actions button, .doctor-actions button { width: 18px !important; height: 18px !important; min-width: 18px !important; min-height: 18px !important; }
+  .patient-actions button svg, .doctor-actions button svg { width: 10px !important; height: 10px !important; }
+}
+
+@media (max-width: 480px) {
+  .dashboard-main .topbar { min-height: 168px !important; }
+  .dashboard-main .topbar-actions .search-box { width: 132px !important; min-width: 132px !important; max-width: 132px !important; }
+  .dashboard-main .dashboard-brand { top: 46px !important; }
+  .dashboard-main .medicare-logo { font-size: 24px !important; }
+  .dashboard-main .dashboard-title { top: 103px !important; }
+  .dashboard-main .dashboard-title h1 { font-size: 19px !important; }
+  .patient-row { min-width: 690px !important; }
+  .doctor-row { min-width: 710px !important; }
+  .appointment-row { min-width: 660px !important; }
+  .prescription-row { min-width: 670px !important; }
+  .billing-row { min-width: 700px !important; }
+  .medical-report-row { min-width: 650px !important; }
+  .medicine-row, .inventory-row { min-width: 690px !important; }
+}
