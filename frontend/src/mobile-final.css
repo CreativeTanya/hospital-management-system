@@ -18,7 +18,18 @@
   .dashboard-main .dashboard-title { top: 112px !important; left: 50% !important; transform: translateX(-50%) !important; }
   .dashboard-main .dashboard-title h1 { font-size: 22px !important; }
   .dashboard-main .dashboard-title .welcome { font-size: 9px !important; margin-bottom: 4px !important; }
-  .dashboard-main .dashboard-subtitle { display: none !important; }
+  .dashboard-main .dashboard-title h1::after { display: none !important; }
+  .dashboard-main .dashboard-title::after {
+    content: "Your hospital at a glance";
+    display: block !important;
+    margin-top: 5px !important;
+    color: #8b96a7 !important;
+    font-size: 9px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.2px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+  }
   .dashboard-main .stats-grid { position: relative !important; z-index: 4 !important; margin-top: 12px !important; }
 
   /* ---------- TABLES ---------- */
