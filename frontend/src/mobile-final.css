@@ -28,7 +28,7 @@
   .medicine-table,
   .inventory-table { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; -webkit-overflow-scrolling: touch !important; overscroll-behavior-x: contain !important; scrollbar-width: auto !important; box-sizing: border-box !important; touch-action: pan-x pan-y !important; }
   .patient-row, .doctor-row, .appointment-row, .prescription-row, .billing-row, .medical-report-row, .medicine-row, .inventory-row { width: max-content !important; max-width: none !important; min-width: 0 !important; display: grid !important; box-sizing: border-box !important; align-items: center !important; gap: 5px !important; padding: 7px 8px !important; overflow: visible !important; }
-  .patient-row { min-width: 700px !important; grid-template-columns: 125px 86px 90px 112px 108px 70px 68px !important; }
+  .patient-row { min-width: 700px !important; grid-template-columns: 105px 86px 90px 112px 108px 70px 68px !important; }
   .doctor-row { min-width: 705px !important; grid-template-columns: 145px 98px 105px 100px 78px 78px 68px !important; }
   .appointment-row { min-width: 690px !important; grid-template-columns: 105px 135px 118px 118px 88px 68px !important; }
   .prescription-row { min-width: 735px !important; grid-template-columns: 145px 130px 105px 92px 82px 76px 70px !important; }
