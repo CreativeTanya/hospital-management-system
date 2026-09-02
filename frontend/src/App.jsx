@@ -12,7 +12,7 @@ import AIReportAssistant from "./pages/AIReportAssistant";
 import MedicineDictionary from "./pages/MedicineDictionary";
 import Prescription from "./pages/Prescription";
 
-function App() {
+export default function App() {
   const [activePage, setActivePage] = useState("Dashboard");
   const [showSettings, setShowSettings] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
@@ -103,4 +103,3 @@ function App() {
     </div>
   );
 }
-export default App;
