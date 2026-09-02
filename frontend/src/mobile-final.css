@@ -68,6 +68,16 @@
   .main-content:not(.dashboard-main) > *:not(.dashboard-decorations) { position: relative !important; z-index: 1 !important; }
   .sidebar, .sidebar-section, .menu-item { overflow: visible !important; }
   .menu-item svg { display: block !important; visibility: visible !important; opacity: 1 !important; width: 18px !important; height: 18px !important; flex: 0 0 18px !important; }
+
+  /* ---------- VIEW/DETAILS POPUP ---------- */
+  /* Keep the popup content exactly the same; only shrink and reposition the outer box so the sidebar cannot cover it. */
+  .modal-overlay .patient-modal:not(:has(.patient-form)) {
+    width: calc(100vw - 120px) !important;
+    max-width: calc(100vw - 120px) !important;
+    max-height: calc(100vh - 60px) !important;
+    box-sizing: border-box !important;
+    transform: translateX(30px) !important;
+  }
 }
 @media (max-width: 480px) {
   .dashboard-main .topbar { min-height: 168px !important; }
