@@ -1,22 +1,37 @@
-/* Mobile-only refinements. Desktop styles remain untouched. */
+/* =========================================================
+   MOBILE LAYOUT — STRUCTURAL FIX
+   Desktop is intentionally untouched.
+   ========================================================= */
+
 @media (max-width: 850px) {
-  /* ICON-ONLY SIDEBAR: everything fits in the viewport. */
+  /* ---------- SIDEBAR: fixed icon rail, always starts at the top ---------- */
+  .app { min-height: 100vh !important; }
+
   .sidebar {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
     width: 50px !important;
     min-width: 50px !important;
     height: 100vh !important;
-    min-height: 100vh !important;
+    min-height: 0 !important;
+    max-height: 100vh !important;
     padding: 5px 2px !important;
     overflow: hidden !important;
     display: flex !important;
     flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    z-index: 1000 !important;
   }
 
   .sidebar-brand {
+    flex: 0 0 31px !important;
     width: 46px !important;
-    height: 34px !important;
+    height: 31px !important;
     padding: 0 !important;
-    margin: 0 auto 4px !important;
+    margin: 0 auto 3px !important;
     justify-content: center !important;
   }
   .sidebar-brand .brand-text,
@@ -27,37 +42,43 @@
     display: none !important;
   }
   .brand-icon {
-    width: 30px !important;
-    height: 30px !important;
-    font-size: 16px !important;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 15px !important;
   }
 
   .sidebar-section {
+    flex: 0 0 auto !important;
     width: 46px !important;
-    margin: 0 auto 3px !important;
+    height: auto !important;
+    margin: 0 auto 2px !important;
     padding: 0 !important;
   }
   .menu-item {
+    flex: 0 0 31px !important;
     width: 40px !important;
-    height: 32px !important;
-    min-height: 32px !important;
+    height: 31px !important;
+    min-height: 31px !important;
+    max-height: 31px !important;
     margin: 1px auto !important;
     padding: 0 !important;
     justify-content: center !important;
     gap: 0 !important;
-    border-radius: 9px !important;
+    border-radius: 8px !important;
   }
   .menu-item svg { width: 17px !important; height: 17px !important; }
 
   .sidebar-footer {
+    flex: 0 0 auto !important;
     width: 46px !important;
-    margin: auto auto 0 !important;
+    margin: 2px auto 0 !important;
     padding: 0 !important;
   }
   .sidebar-footer-item {
     width: 40px !important;
-    height: 29px !important;
-    min-height: 29px !important;
+    height: 27px !important;
+    min-height: 27px !important;
+    max-height: 27px !important;
     margin: 1px auto !important;
     padding: 0 !important;
     justify-content: center !important;
@@ -65,8 +86,8 @@
   }
   .system-status {
     width: 40px !important;
-    height: 18px !important;
-    margin: 2px auto 0 !important;
+    height: 16px !important;
+    margin: 1px auto 0 !important;
     padding: 0 !important;
     justify-content: center !important;
   }
@@ -75,11 +96,11 @@
     width: calc(100% - 50px) !important;
     min-width: 0 !important;
     margin-left: 50px !important;
-    padding: 14px 8px 28px !important;
+    padding: 10px 6px 24px !important;
     overflow-x: hidden !important;
   }
 
-  /* Reduce table travel. Keep columns separate and preserve the table layout. */
+  /* ---------- TABLES: exact cell counts, smaller scroll distance ---------- */
   .patient-table,
   .doctor-table,
   .appointment-table,
@@ -93,46 +114,78 @@
     overflow-x: auto !important;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
   }
 
+  /* Patients + Medicines: 7 cells */
   .patient-row {
-    width: 575px !important;
-    min-width: 575px !important;
-    grid-template-columns: 125px 65px 68px 85px 85px 55px 62px !important;
+    width: 520px !important;
+    min-width: 520px !important;
+    max-width: none !important;
+    grid-template-columns: 112px 58px 62px 78px 78px 52px 56px !important;
     gap: 4px !important;
-    padding: 8px 7px !important;
+    padding: 7px 6px !important;
+    box-sizing: border-box !important;
   }
+
+  /* Doctors: 7 cells */
+  .doctor-row {
+    width: 560px !important;
+    min-width: 560px !important;
+    max-width: none !important;
+    grid-template-columns: 112px 78px 82px 78px 68px 68px 66px !important;
+    gap: 4px !important;
+    padding: 7px 6px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Appointments: 6 cells */
   .appointment-row {
-    width: 575px !important;
-    min-width: 575px !important;
-    grid-template-columns: 75px 120px 100px 90px 105px 65px !important;
+    width: 520px !important;
+    min-width: 520px !important;
+    max-width: none !important;
+    grid-template-columns: 82px 118px 95px 88px 72px 61px !important;
     gap: 4px !important;
-    padding: 8px 7px !important;
+    padding: 7px 6px !important;
+    box-sizing: border-box !important;
   }
+
+  /* Prescription: 6 cells */
   .prescription-row {
-    width: 575px !important;
-    min-width: 575px !important;
-    grid-template-columns: 115px 105px 95px 90px 90px 70px !important;
+    width: 520px !important;
+    min-width: 520px !important;
+    max-width: none !important;
+    grid-template-columns: 105px 100px 88px 82px 78px 63px !important;
     gap: 4px !important;
-    padding: 8px 7px !important;
+    padding: 7px 6px !important;
+    box-sizing: border-box !important;
   }
+
+  /* Billing: 7 cells — this fixes the Action column escaping the table. */
   .billing-row {
-    width: 575px !important;
-    min-width: 575px !important;
-    grid-template-columns: 115px 90px 105px 90px 95px 70px !important;
+    width: 520px !important;
+    min-width: 520px !important;
+    max-width: none !important;
+    grid-template-columns: 105px 78px 88px 65px 70px 58px 56px !important;
     gap: 4px !important;
-    padding: 8px 7px !important;
+    padding: 7px 6px !important;
+    box-sizing: border-box !important;
   }
+
+  /* Keep remaining tables compact but internally consistent. */
   .medical-report-row,
   .medicine-row,
   .inventory-row {
-    width: 575px !important;
-    min-width: 575px !important;
+    width: 520px !important;
+    min-width: 520px !important;
+    max-width: none !important;
     gap: 4px !important;
-    padding: 8px 7px !important;
+    padding: 7px 6px !important;
+    box-sizing: border-box !important;
   }
 
   .patient-row > *,
+  .doctor-row > *,
   .appointment-row > *,
   .prescription-row > *,
   .billing-row > *,
@@ -140,12 +193,17 @@
   .medicine-row > *,
   .inventory-row > * {
     min-width: 0 !important;
+    max-width: 100% !important;
     font-size: 8px !important;
+    line-height: 1.15 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    box-sizing: border-box !important;
   }
+
   .patient-row.table-heading,
+  .doctor-row.table-heading,
   .appointment-row.table-heading,
   .prescription-row.table-heading,
   .billing-row.table-heading,
@@ -154,52 +212,75 @@
   .inventory-row.table-heading {
     overflow: visible !important;
     white-space: nowrap !important;
+    font-size: 7px !important;
   }
 
+  .patient-name-cell {
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+  }
+  .patient-name-cell > div:last-child { min-width: 0 !important; overflow: hidden !important; }
   .patient-avatar {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
   }
   .patient-name-cell strong { font-size: 8px !important; }
-  .patient-actions { gap: 3px !important; overflow: visible !important; }
-  .patient-actions button {
-    width: 23px !important;
-    height: 23px !important;
-    min-width: 23px !important;
-    min-height: 23px !important;
+
+  .patient-actions,
+  .doctor-actions {
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    overflow: hidden !important;
+  }
+  .patient-actions button,
+  .doctor-actions button {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    padding: 0 !important;
+    flex: 0 0 20px !important;
   }
 
-  /* Decorations are part of the background on EVERY module, not only Dashboard. */
+  /* ---------- BACKGROUND DECORATIONS: both sides on every module ---------- */
   .dashboard-decorations {
     display: block !important;
     position: fixed !important;
-    inset: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
+    inset: auto !important;
     z-index: 0 !important;
     pointer-events: none !important;
   }
   .dashboard-decorations .deco {
     position: fixed !important;
     display: inline-block !important;
-    opacity: .38 !important;
+    font-size: 16px !important;
+    opacity: .30 !important;
     pointer-events: none !important;
-    font-size: 18px !important;
+    z-index: 0 !important;
   }
-  /* Left column: directly beside the sidebar. */
-  .dashboard-decorations .d1 { left: 56px !important; top: 15% !important; }
-  .dashboard-decorations .d3 { left: 56px !important; top: 35% !important; }
-  .dashboard-decorations .d5 { left: 56px !important; top: 55% !important; }
-  .dashboard-decorations .d7 { left: 56px !important; top: 75% !important; }
-  .dashboard-decorations .d9 { left: 56px !important; top: 90% !important; }
-  /* Right column. */
-  .dashboard-decorations .d11 { right: 10px !important; left: auto !important; top: 15% !important; }
-  .dashboard-decorations .d13 { right: 10px !important; left: auto !important; top: 35% !important; }
-  .dashboard-decorations .d15 { right: 10px !important; left: auto !important; top: 55% !important; }
-  .dashboard-decorations .d17 { right: 10px !important; left: auto !important; top: 75% !important; }
-  .dashboard-decorations .d19 { right: 10px !important; left: auto !important; top: 90% !important; }
+  /* Left: immediately adjacent to the right edge of the sidebar. */
+  .dashboard-decorations .d1 { left: 53px !important; top: 14% !important; }
+  .dashboard-decorations .d3 { left: 53px !important; top: 34% !important; }
+  .dashboard-decorations .d5 { left: 53px !important; top: 54% !important; }
+  .dashboard-decorations .d7 { left: 53px !important; top: 74% !important; }
+  .dashboard-decorations .d9 { left: 53px !important; top: 91% !important; }
+  /* Right. */
+  .dashboard-decorations .d11 { right: 8px !important; left: auto !important; top: 14% !important; }
+  .dashboard-decorations .d13 { right: 8px !important; left: auto !important; top: 34% !important; }
+  .dashboard-decorations .d15 { right: 8px !important; left: auto !important; top: 54% !important; }
+  .dashboard-decorations .d17 { right: 8px !important; left: auto !important; top: 74% !important; }
+  .dashboard-decorations .d19 { right: 8px !important; left: auto !important; top: 91% !important; }
   .dashboard-decorations .d2,
   .dashboard-decorations .d4,
   .dashboard-decorations .d6,
@@ -211,7 +292,6 @@
   .dashboard-decorations .d18,
   .dashboard-decorations .d20 { display: none !important; }
 
-  /* Keep dashboard content above the background decorations. */
   .main-content > *:not(.dashboard-decorations) {
     position: relative !important;
     z-index: 1 !important;
@@ -225,21 +305,21 @@
     margin-left: 46px !important;
   }
   .patient-row,
+  .doctor-row,
   .appointment-row,
   .prescription-row,
   .billing-row,
   .medical-report-row,
   .medicine-row,
   .inventory-row {
-    width: 540px !important;
-    min-width: 540px !important;
+    width: 500px !important;
+    min-width: 500px !important;
   }
-  .patient-row {
-    grid-template-columns: 115px 60px 64px 80px 80px 52px 58px !important;
-  }
+  .patient-row { grid-template-columns: 108px 55px 60px 75px 75px 50px 54px !important; }
+  .billing-row { grid-template-columns: 100px 74px 84px 63px 67px 56px 56px !important; }
   .dashboard-decorations .d1,
   .dashboard-decorations .d3,
   .dashboard-decorations .d5,
   .dashboard-decorations .d7,
-  .dashboard-decorations .d9 { left: 52px !important; }
+  .dashboard-decorations .d9 { left: 49px !important; }
 }
