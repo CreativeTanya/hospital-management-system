@@ -1,0 +1,193 @@
+/* =========================================================
+   MOBILE FINAL FIXES
+   ========================================================= */
+
+@media (max-width: 850px) {
+  /* Keep the complete sidebar visible without vertical scrolling. */
+  .sidebar {
+    width: 52px !important;
+    padding: 5px 2px !important;
+    overflow-y: hidden !important;
+  }
+
+  .sidebar-brand {
+    padding-bottom: 4px !important;
+  }
+
+  .brand-icon {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 16px !important;
+  }
+
+  .sidebar-section {
+    margin-bottom: 2px !important;
+  }
+
+  .menu-item {
+    width: 40px !important;
+    height: 35px !important;
+    min-height: 35px !important;
+    margin: 1px auto !important;
+  }
+
+  .menu-item svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  .sidebar-footer {
+    margin-top: 2px !important;
+  }
+
+  .sidebar-footer-item {
+    width: 40px !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    margin: 1px auto !important;
+  }
+
+  .system-status {
+    padding: 2px 0 !important;
+  }
+
+  /* Less horizontal table travel while preserving the desktop table structure. */
+  .patient-row {
+    width: 690px !important;
+    min-width: 690px !important;
+    grid-template-columns: 145px 78px 82px 105px 105px 60px 65px !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .doctor-row {
+    width: 735px !important;
+    min-width: 735px !important;
+    grid-template-columns: 145px 105px 110px 105px 85px 90px 95px !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .appointment-row {
+    width: 690px !important;
+    min-width: 690px !important;
+    grid-template-columns: 90px 150px 125px 110px 105px 75px !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .prescription-row {
+    width: 690px !important;
+    min-width: 690px !important;
+    grid-template-columns: 140px 125px 115px 105px 100px 80px !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .billing-row {
+    width: 690px !important;
+    min-width: 690px !important;
+    grid-template-columns: 140px 105px 125px 105px 105px 80px !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .medical-report-row,
+  .medicine-row,
+  .inventory-row {
+    width: 690px !important;
+    min-width: 690px !important;
+    gap: 5px !important;
+    padding: 9px 10px !important;
+  }
+
+  .patient-row > *,
+  .doctor-row > *,
+  .appointment-row > *,
+  .prescription-row > *,
+  .billing-row > *,
+  .medical-report-row > *,
+  .medicine-row > *,
+  .inventory-row > * {
+    font-size: 8px !important;
+  }
+
+  .patient-row.table-heading,
+  .doctor-row.table-heading,
+  .appointment-row.table-heading,
+  .prescription-row.table-heading,
+  .billing-row.table-heading,
+  .medical-report-row.table-heading,
+  .medicine-row.table-heading,
+  .inventory-row.table-heading {
+    font-size: 8px !important;
+    overflow: visible !important;
+  }
+
+  /* Put a small group of the existing decorations immediately beside the rail,
+     while keeping the remaining decorations on the right. */
+  .dashboard-main .dashboard-decorations .d1,
+  .dashboard-main .dashboard-decorations .d3,
+  .dashboard-main .dashboard-decorations .d5,
+  .dashboard-main .dashboard-decorations .d7 {
+    display: inline-block !important;
+    position: fixed !important;
+    left: 57px !important;
+    z-index: 0 !important;
+    opacity: .55 !important;
+    pointer-events: none !important;
+  }
+
+  .dashboard-main .dashboard-decorations .d1 { top: 18% !important; }
+  .dashboard-main .dashboard-decorations .d3 { top: 38% !important; }
+  .dashboard-main .dashboard-decorations .d5 { top: 58% !important; }
+  .dashboard-main .dashboard-decorations .d7 { top: 78% !important; }
+
+  .dashboard-main .dashboard-decorations .d11,
+  .dashboard-main .dashboard-decorations .d12,
+  .dashboard-main .dashboard-decorations .d13,
+  .dashboard-main .dashboard-decorations .d14,
+  .dashboard-main .dashboard-decorations .d15,
+  .dashboard-main .dashboard-decorations .d16,
+  .dashboard-main .dashboard-decorations .d17,
+  .dashboard-main .dashboard-decorations .d18,
+  .dashboard-main .dashboard-decorations .d19,
+  .dashboard-main .dashboard-decorations .d20 {
+    display: inline-block !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .sidebar {
+    width: 48px !important;
+  }
+
+  .main-content {
+    width: calc(100% - 48px) !important;
+    margin-left: 48px !important;
+  }
+
+  .dashboard-main .dashboard-decorations .d1,
+  .dashboard-main .dashboard-decorations .d3,
+  .dashboard-main .dashboard-decorations .d5,
+  .dashboard-main .dashboard-decorations .d7 {
+    left: 52px !important;
+  }
+
+  .patient-row {
+    width: 650px !important;
+    min-width: 650px !important;
+    grid-template-columns: 135px 72px 76px 98px 98px 58px 60px !important;
+  }
+
+  .doctor-row,
+  .appointment-row,
+  .prescription-row,
+  .billing-row,
+  .medical-report-row,
+  .medicine-row,
+  .inventory-row {
+    width: 650px !important;
+    min-width: 650px !important;
+  }
+}
