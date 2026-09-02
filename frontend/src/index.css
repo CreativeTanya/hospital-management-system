@@ -109,13 +109,3 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
-
-/* Mobile-only sizing for view/details popups across modules. */
-@media (max-width: 850px) {
-  .modal-overlay .patient-modal:not(:has(.patient-form)) {
-    width: calc(100vw - 60px) !important;
-    max-width: calc(100vw - 60px) !important;
-    max-height: calc(100vh - 60px) !important;
-    box-sizing: border-box !important;
-  }
-}
