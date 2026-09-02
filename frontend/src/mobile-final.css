@@ -13,7 +13,7 @@
   .dashboard-main .dashboard-title h1 { font-size: 22px !important; }
   .dashboard-main .dashboard-title .welcome { font-size: 9px !important; margin-bottom: 4px !important; }
   .dashboard-main .dashboard-title h1::after { display: none !important; }
-  .dashboard-main .dashboard-title::after { content: "Your hospital at a glance"; display: block !important; margin-top: 14px !important; color: #8b96a7 !important; font-size: 9px !important; font-weight: 500 !important; letter-spacing: 0.2px !important; white-space: nowrap !important; text-align: center !important; }
+  .dashboard-main .dashboard-title::after { content: "Your hospital at a glance"; display: block !important; margin-top: 18px !important; color: #8b96a7 !important; font-size: 9px !important; font-weight: 500 !important; letter-spacing: 0.2px !important; white-space: nowrap !important; text-align: center !important; }
   .dashboard-main .stats-grid { position: relative !important; z-index: 4 !important; margin-top: 12px !important; }
 
   /* ---------- TABLE VIEWPORT ---------- */
@@ -26,9 +26,7 @@
   .billing-table,
   .medical-report-table,
   .medicine-table,
-  .inventory-table {
-    display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; -webkit-overflow-scrolling: touch !important; overscroll-behavior-x: contain !important; scrollbar-width: auto !important; box-sizing: border-box !important; touch-action: pan-x pan-y !important;
-  }
+  .inventory-table { display: block !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overflow-y: hidden !important; -webkit-overflow-scrolling: touch !important; overscroll-behavior-x: contain !important; scrollbar-width: auto !important; box-sizing: border-box !important; touch-action: pan-x pan-y !important; }
   .patient-row, .doctor-row, .appointment-row, .prescription-row, .billing-row, .medical-report-row, .medicine-row, .inventory-row { width: max-content !important; max-width: none !important; min-width: 0 !important; display: grid !important; box-sizing: border-box !important; align-items: center !important; gap: 5px !important; padding: 7px 8px !important; overflow: visible !important; }
   .patient-row { min-width: 700px !important; grid-template-columns: 125px 86px 90px 112px 108px 70px 68px !important; }
   .doctor-row { min-width: 705px !important; grid-template-columns: 145px 98px 105px 100px 78px 78px 68px !important; }
