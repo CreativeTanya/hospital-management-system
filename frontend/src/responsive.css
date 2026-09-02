@@ -1,0 +1,503 @@
+/* =========================================================
+   MEDICARE MOBILE RESPONSIVE LAYOUT
+   Responsive-only overrides. Desktop styling is untouched.
+   ========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100svh;
+}
+
+@media (max-width: 850px) {
+  /* Keep the existing full-screen fog/background visible. */
+  html,
+  body,
+  #root,
+  .app,
+  .main-content {
+    min-height: 100svh;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .app {
+    display: block;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Slim fixed icon rail */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 68px !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: 16px 7px !important;
+    z-index: 1000 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .sidebar-brand {
+    justify-content: center !important;
+    padding: 2px 0 16px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .brand-icon {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px !important;
+  }
+
+  .brand-text {
+    display: none !important;
+  }
+
+  .sidebar-section {
+    margin-bottom: 12px !important;
+  }
+
+  .sidebar-label {
+    display: none !important;
+  }
+
+  .menu-item {
+    width: 52px !important;
+    min-height: 48px !important;
+    height: 48px !important;
+    margin: 4px auto !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    border-radius: 12px !important;
+  }
+
+  .menu-item span {
+    display: none !important;
+  }
+
+  .menu-item svg {
+    width: 21px !important;
+    height: 21px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .sidebar-footer {
+    margin-top: auto !important;
+  }
+
+  .sidebar-footer-item {
+    width: 52px !important;
+    min-height: 46px !important;
+    margin: 4px auto !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    gap: 0 !important;
+  }
+
+  .sidebar-footer-item > span:last-child {
+    display: none !important;
+  }
+
+  .system-status {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+  }
+
+  .system-status > span:last-child {
+    display: none !important;
+  }
+
+  /* Content sits beside the rail instead of underneath it. */
+  .main-content {
+    width: calc(100% - 68px) !important;
+    max-width: none !important;
+    margin-left: 68px !important;
+    padding: 18px 14px 32px !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Dashboard header */
+  .topbar {
+    min-height: 170px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .topbar-actions {
+    top: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: calc(100% - 24px) !important;
+    gap: 7px !important;
+  }
+
+  .search-box {
+    width: min(170px, 48vw) !important;
+    height: 40px !important;
+  }
+
+  .notification {
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .profile {
+    display: none !important;
+  }
+
+  .dashboard-brand {
+    top: 55px !important;
+    max-width: calc(100% - 20px) !important;
+  }
+
+  .medicare-logo {
+    font-size: 30px !important;
+    letter-spacing: -1.2px !important;
+  }
+
+  .medicare-logo::before {
+    left: -13px !important;
+    top: -2px !important;
+  }
+
+  .medicare-logo::after {
+    right: -13px !important;
+  }
+
+  .medicare-tagline {
+    margin-top: 6px !important;
+    font-size: 8px !important;
+    letter-spacing: 1.2px !important;
+  }
+
+  .dashboard-title {
+    top: 112px !important;
+    width: calc(100% - 16px) !important;
+    max-width: 100% !important;
+  }
+
+  .dashboard-title h1 {
+    font-size: clamp(22px, 6vw, 28px) !important;
+    letter-spacing: -0.6px !important;
+  }
+
+  .dashboard-title .welcome {
+    font-size: 10px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .dashboard-subtitle {
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Dashboard cards */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .stat-card {
+    min-height: 94px !important;
+    padding: 16px !important;
+    gap: 13px !important;
+  }
+
+  .stat-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+  }
+
+  .stat-card h2 {
+    font-size: 22px !important;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .card-header {
+    padding: 17px 16px !important;
+    gap: 10px !important;
+  }
+
+  .card-header h3 {
+    font-size: 14px !important;
+  }
+
+  .card-header p {
+    font-size: 10px !important;
+  }
+
+  .primary-btn {
+    padding: 9px 11px !important;
+    font-size: 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .appointment-list {
+    padding: 4px 16px !important;
+  }
+
+  .appointment {
+    grid-template-columns: 54px 36px minmax(0, 1fr) !important;
+    gap: 9px !important;
+    min-height: 68px !important;
+  }
+
+  .appointment .status,
+  .appointment .patient-name {
+    display: none !important;
+  }
+
+  .appointment-info strong,
+  .appointment-info span {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  /* Generic page layouts */
+  .page-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 18px 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .page-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .page-header h2,
+  .medicine-page-header h2 {
+    font-size: 24px !important;
+  }
+
+  .page-description,
+  .medicine-page-header p {
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+  }
+
+  .patient-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .patient-search {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .filter-btn,
+  .doctor-filter {
+    width: 100% !important;
+  }
+
+  /* Tables stay usable: scroll the table, not the entire page. */
+  .patient-table,
+  .doctor-table,
+  .appointment-table,
+  .prescription-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .patient-row,
+  .doctor-row,
+  .appointment-row,
+  .prescription-row,
+  .billing-row {
+    min-width: 760px !important;
+  }
+
+  .patient-table-card {
+    overflow: hidden !important;
+  }
+
+  /* Forms and modals */
+  .modal-overlay {
+    padding: 12px !important;
+  }
+
+  .patient-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 94svh !important;
+    border-radius: 16px !important;
+  }
+
+  .modal-header,
+  .patient-form,
+  .patient-details {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .modal-actions {
+    flex-wrap: wrap !important;
+  }
+
+  /* AI assistant */
+  .ai-report-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 14px !important;
+  }
+
+  .ai-upload-card,
+  .ai-result-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .ai-result-header {
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .ai-result-title {
+    min-width: 0 !important;
+  }
+
+  .ai-result-title h3,
+  .ai-section-header h3 {
+    font-size: 14px !important;
+  }
+
+  .secondary-btn {
+    flex-shrink: 0 !important;
+    padding: 7px 9px !important;
+  }
+
+  .ai-upload-area {
+    min-height: 170px !important;
+    padding: 18px !important;
+  }
+
+  .ai-finding-top {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+  }
+
+  /* Medicine page */
+  .medicine-page {
+    padding: 18px 0 !important;
+  }
+
+  .medicine-library {
+    padding: 14px !important;
+  }
+
+  .medicine-toolbar,
+  .medicine-filter-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .medicine-category-filter,
+  .medicine-filter-row .medicine-search {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .medicine-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Pharmacy */
+  .pharmacy-overview {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    padding: 18px !important;
+  }
+
+  .pharmacy-stats {
+    grid-template-columns: 1fr !important;
+    max-width: none !important;
+  }
+
+  /* Keep long text from creating horizontal overflow. */
+  .card,
+  .patient-table-card,
+  .ai-upload-card,
+  .ai-result-card,
+  .medicine-library,
+  .pharmacy-overview {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .search-box {
+    width: min(145px, 45vw) !important;
+  }
+
+  .dashboard-title h1 {
+    font-size: 22px !important;
+  }
+
+  .medicare-logo {
+    font-size: 27px !important;
+  }
+
+  .quick-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .stat-card {
+    padding: 14px !important;
+  }
+
+  .patient-row,
+  .doctor-row,
+  .appointment-row,
+  .prescription-row,
+  .billing-row {
+    min-width: 700px !important;
+  }
+}
