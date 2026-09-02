@@ -12,7 +12,6 @@ body,
 }
 
 @media (max-width: 850px) {
-  /* Keep the existing full-screen fog/background visible. */
   html,
   body,
   #root,
@@ -104,7 +103,8 @@ body,
     gap: 0 !important;
   }
 
-  .sidebar-footer-item > span:last-child {
+  .sidebar-footer-item > span:last-child,
+  .system-status > span:last-child {
     display: none !important;
   }
 
@@ -113,11 +113,6 @@ body,
     padding: 10px 0 !important;
   }
 
-  .system-status > span:last-child {
-    display: none !important;
-  }
-
-  /* Content sits beside the rail instead of underneath it. */
   .main-content {
     width: calc(100% - 68px) !important;
     max-width: none !important;
@@ -202,7 +197,6 @@ body,
     line-height: 1.5 !important;
   }
 
-  /* Dashboard cards */
   .stats-grid {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
@@ -276,7 +270,6 @@ body,
     gap: 10px !important;
   }
 
-  /* Generic page layouts */
   .page-content {
     width: 100% !important;
     max-width: 100% !important;
@@ -318,7 +311,13 @@ body,
     width: 100% !important;
   }
 
-  /* Tables stay usable: scroll the table, not the entire page. */
+  /* =======================================================
+     MOBILE TABLES
+     Tables are NOT squeezed into the phone width.
+     Each table gets a readable minimum width and scrolls
+     horizontally inside its own card.
+     ======================================================= */
+
   .patient-table,
   .doctor-table,
   .appointment-table,
@@ -328,6 +327,7 @@ body,
     overflow-x: auto !important;
     overflow-y: hidden !important;
     -webkit-overflow-scrolling: touch !important;
+    display: block !important;
   }
 
   .patient-row,
@@ -335,11 +335,70 @@ body,
   .appointment-row,
   .prescription-row,
   .billing-row {
-    min-width: 760px !important;
+    min-width: 1050px !important;
+    width: 1050px !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+  }
+
+  /* Patient table has 7 cells. The previous CSS defined only 6,
+     which caused the Action column to collapse into the table. */
+  .patient-row {
+    grid-template-columns: 220px 125px 130px 165px 180px 105px 125px !important;
+    gap: 20px !important;
+    padding: 16px 22px !important;
+  }
+
+  .patient-name-cell {
+    min-width: 0 !important;
+  }
+
+  .patient-name-cell strong,
+  .patient-id,
+  .patient-row > span,
+  .patient-actions {
+    white-space: nowrap !important;
+  }
+
+  .patient-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-width: 110px !important;
+  }
+
+  .patient-actions button {
+    flex: 0 0 34px !important;
   }
 
   .patient-table-card {
+    width: 100% !important;
+    max-width: 100% !important;
     overflow: hidden !important;
+  }
+
+  /* Keep other data tables readable instead of compressing columns. */
+  .doctor-row {
+    grid-template-columns: 210px 150px 160px 150px 120px 120px 120px !important;
+  }
+
+  .appointment-row {
+    grid-template-columns: 130px 210px 180px 150px 130px 120px !important;
+  }
+
+  .prescription-row {
+    grid-template-columns: 190px 170px 160px 150px 130px 120px !important;
+  }
+
+  .billing-row {
+    grid-template-columns: 190px 150px 170px 150px 140px 130px !important;
+  }
+
+  .doctor-row,
+  .appointment-row,
+  .prescription-row,
+  .billing-row {
+    gap: 18px !important;
   }
 
   /* Forms and modals */
@@ -455,7 +514,6 @@ body,
     max-width: none !important;
   }
 
-  /* Keep long text from creating horizontal overflow. */
   .card,
   .patient-table-card,
   .ai-upload-card,
@@ -493,11 +551,14 @@ body,
     padding: 14px !important;
   }
 
+  /* Keep the table width the same on very small phones.
+     The user can swipe horizontally to see every column. */
   .patient-row,
   .doctor-row,
   .appointment-row,
   .prescription-row,
   .billing-row {
-    min-width: 700px !important;
+    min-width: 1050px !important;
+    width: 1050px !important;
   }
 }
