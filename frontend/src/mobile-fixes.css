@@ -1,193 +1,245 @@
-/* =========================================================
-   MOBILE FINAL FIXES
-   ========================================================= */
-
+/* Mobile-only refinements. Desktop styles remain untouched. */
 @media (max-width: 850px) {
-  /* Keep the complete sidebar visible without vertical scrolling. */
+  /* ICON-ONLY SIDEBAR: everything fits in the viewport. */
   .sidebar {
-    width: 52px !important;
+    width: 50px !important;
+    min-width: 50px !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
     padding: 5px 2px !important;
-    overflow-y: hidden !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .sidebar-brand {
-    padding-bottom: 4px !important;
+    width: 46px !important;
+    height: 34px !important;
+    padding: 0 !important;
+    margin: 0 auto 4px !important;
+    justify-content: center !important;
   }
-
+  .sidebar-brand .brand-text,
+  .sidebar-label,
+  .menu-item span,
+  .sidebar-footer-item span:not(:first-child),
+  .system-status span:not(.status-dot) {
+    display: none !important;
+  }
   .brand-icon {
-    width: 28px !important;
-    height: 28px !important;
+    width: 30px !important;
+    height: 30px !important;
     font-size: 16px !important;
   }
 
   .sidebar-section {
-    margin-bottom: 2px !important;
+    width: 46px !important;
+    margin: 0 auto 3px !important;
+    padding: 0 !important;
   }
-
   .menu-item {
     width: 40px !important;
-    height: 35px !important;
-    min-height: 35px !important;
+    height: 32px !important;
+    min-height: 32px !important;
     margin: 1px auto !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    border-radius: 9px !important;
   }
-
-  .menu-item svg {
-    width: 17px !important;
-    height: 17px !important;
-  }
+  .menu-item svg { width: 17px !important; height: 17px !important; }
 
   .sidebar-footer {
-    margin-top: 2px !important;
+    width: 46px !important;
+    margin: auto auto 0 !important;
+    padding: 0 !important;
   }
-
   .sidebar-footer-item {
     width: 40px !important;
-    min-height: 32px !important;
-    height: 32px !important;
+    height: 29px !important;
+    min-height: 29px !important;
     margin: 1px auto !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    gap: 0 !important;
   }
-
   .system-status {
-    padding: 2px 0 !important;
+    width: 40px !important;
+    height: 18px !important;
+    margin: 2px auto 0 !important;
+    padding: 0 !important;
+    justify-content: center !important;
   }
 
-  /* Less horizontal table travel while preserving the desktop table structure. */
+  .main-content {
+    width: calc(100% - 50px) !important;
+    min-width: 0 !important;
+    margin-left: 50px !important;
+    padding: 14px 8px 28px !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Reduce table travel. Keep columns separate and preserve the table layout. */
+  .patient-table,
+  .doctor-table,
+  .appointment-table,
+  .prescription-table,
+  .billing-table,
+  .medical-report-table,
+  .medicine-table,
+  .inventory-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
   .patient-row {
-    width: 690px !important;
-    min-width: 690px !important;
-    grid-template-columns: 145px 78px 82px 105px 105px 60px 65px !important;
-    gap: 5px !important;
-    padding: 9px 10px !important;
+    width: 575px !important;
+    min-width: 575px !important;
+    grid-template-columns: 125px 65px 68px 85px 85px 55px 62px !important;
+    gap: 4px !important;
+    padding: 8px 7px !important;
   }
-
-  .doctor-row {
-    width: 735px !important;
-    min-width: 735px !important;
-    grid-template-columns: 145px 105px 110px 105px 85px 90px 95px !important;
-    gap: 5px !important;
-    padding: 9px 10px !important;
-  }
-
   .appointment-row {
-    width: 690px !important;
-    min-width: 690px !important;
-    grid-template-columns: 90px 150px 125px 110px 105px 75px !important;
-    gap: 5px !important;
-    padding: 9px 10px !important;
+    width: 575px !important;
+    min-width: 575px !important;
+    grid-template-columns: 75px 120px 100px 90px 105px 65px !important;
+    gap: 4px !important;
+    padding: 8px 7px !important;
   }
-
   .prescription-row {
-    width: 690px !important;
-    min-width: 690px !important;
-    grid-template-columns: 140px 125px 115px 105px 100px 80px !important;
-    gap: 5px !important;
-    padding: 9px 10px !important;
+    width: 575px !important;
+    min-width: 575px !important;
+    grid-template-columns: 115px 105px 95px 90px 90px 70px !important;
+    gap: 4px !important;
+    padding: 8px 7px !important;
   }
-
   .billing-row {
-    width: 690px !important;
-    min-width: 690px !important;
-    grid-template-columns: 140px 105px 125px 105px 105px 80px !important;
-    gap: 5px !important;
-    padding: 9px 10px !important;
+    width: 575px !important;
+    min-width: 575px !important;
+    grid-template-columns: 115px 90px 105px 90px 95px 70px !important;
+    gap: 4px !important;
+    padding: 8px 7px !important;
   }
-
   .medical-report-row,
   .medicine-row,
   .inventory-row {
-    width: 690px !important;
-    min-width: 690px !important;
-    gap: 5px !important;
-    padding: 9px 10px !important;
+    width: 575px !important;
+    min-width: 575px !important;
+    gap: 4px !important;
+    padding: 8px 7px !important;
   }
 
   .patient-row > *,
-  .doctor-row > *,
   .appointment-row > *,
   .prescription-row > *,
   .billing-row > *,
   .medical-report-row > *,
   .medicine-row > *,
   .inventory-row > * {
+    min-width: 0 !important;
     font-size: 8px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
-
   .patient-row.table-heading,
-  .doctor-row.table-heading,
   .appointment-row.table-heading,
   .prescription-row.table-heading,
   .billing-row.table-heading,
   .medical-report-row.table-heading,
   .medicine-row.table-heading,
   .inventory-row.table-heading {
-    font-size: 8px !important;
     overflow: visible !important;
+    white-space: nowrap !important;
   }
 
-  /* Put a small group of the existing decorations immediately beside the rail,
-     while keeping the remaining decorations on the right. */
-  .dashboard-main .dashboard-decorations .d1,
-  .dashboard-main .dashboard-decorations .d3,
-  .dashboard-main .dashboard-decorations .d5,
-  .dashboard-main .dashboard-decorations .d7 {
-    display: inline-block !important;
+  .patient-avatar {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+  }
+  .patient-name-cell strong { font-size: 8px !important; }
+  .patient-actions { gap: 3px !important; overflow: visible !important; }
+  .patient-actions button {
+    width: 23px !important;
+    height: 23px !important;
+    min-width: 23px !important;
+    min-height: 23px !important;
+  }
+
+  /* Decorations are part of the background on EVERY module, not only Dashboard. */
+  .dashboard-decorations {
+    display: block !important;
     position: fixed !important;
-    left: 57px !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
     z-index: 0 !important;
-    opacity: .55 !important;
     pointer-events: none !important;
   }
-
-  .dashboard-main .dashboard-decorations .d1 { top: 18% !important; }
-  .dashboard-main .dashboard-decorations .d3 { top: 38% !important; }
-  .dashboard-main .dashboard-decorations .d5 { top: 58% !important; }
-  .dashboard-main .dashboard-decorations .d7 { top: 78% !important; }
-
-  .dashboard-main .dashboard-decorations .d11,
-  .dashboard-main .dashboard-decorations .d12,
-  .dashboard-main .dashboard-decorations .d13,
-  .dashboard-main .dashboard-decorations .d14,
-  .dashboard-main .dashboard-decorations .d15,
-  .dashboard-main .dashboard-decorations .d16,
-  .dashboard-main .dashboard-decorations .d17,
-  .dashboard-main .dashboard-decorations .d18,
-  .dashboard-main .dashboard-decorations .d19,
-  .dashboard-main .dashboard-decorations .d20 {
+  .dashboard-decorations .deco {
+    position: fixed !important;
     display: inline-block !important;
+    opacity: .38 !important;
+    pointer-events: none !important;
+    font-size: 18px !important;
+  }
+  /* Left column: directly beside the sidebar. */
+  .dashboard-decorations .d1 { left: 56px !important; top: 15% !important; }
+  .dashboard-decorations .d3 { left: 56px !important; top: 35% !important; }
+  .dashboard-decorations .d5 { left: 56px !important; top: 55% !important; }
+  .dashboard-decorations .d7 { left: 56px !important; top: 75% !important; }
+  .dashboard-decorations .d9 { left: 56px !important; top: 90% !important; }
+  /* Right column. */
+  .dashboard-decorations .d11 { right: 10px !important; left: auto !important; top: 15% !important; }
+  .dashboard-decorations .d13 { right: 10px !important; left: auto !important; top: 35% !important; }
+  .dashboard-decorations .d15 { right: 10px !important; left: auto !important; top: 55% !important; }
+  .dashboard-decorations .d17 { right: 10px !important; left: auto !important; top: 75% !important; }
+  .dashboard-decorations .d19 { right: 10px !important; left: auto !important; top: 90% !important; }
+  .dashboard-decorations .d2,
+  .dashboard-decorations .d4,
+  .dashboard-decorations .d6,
+  .dashboard-decorations .d8,
+  .dashboard-decorations .d10,
+  .dashboard-decorations .d12,
+  .dashboard-decorations .d14,
+  .dashboard-decorations .d16,
+  .dashboard-decorations .d18,
+  .dashboard-decorations .d20 { display: none !important; }
+
+  /* Keep dashboard content above the background decorations. */
+  .main-content > *:not(.dashboard-decorations) {
+    position: relative !important;
+    z-index: 1 !important;
   }
 }
 
 @media (max-width: 380px) {
-  .sidebar {
-    width: 48px !important;
-  }
-
+  .sidebar { width: 46px !important; min-width: 46px !important; }
   .main-content {
-    width: calc(100% - 48px) !important;
-    margin-left: 48px !important;
+    width: calc(100% - 46px) !important;
+    margin-left: 46px !important;
   }
-
-  .dashboard-main .dashboard-decorations .d1,
-  .dashboard-main .dashboard-decorations .d3,
-  .dashboard-main .dashboard-decorations .d5,
-  .dashboard-main .dashboard-decorations .d7 {
-    left: 52px !important;
-  }
-
-  .patient-row {
-    width: 650px !important;
-    min-width: 650px !important;
-    grid-template-columns: 135px 72px 76px 98px 98px 58px 60px !important;
-  }
-
-  .doctor-row,
+  .patient-row,
   .appointment-row,
   .prescription-row,
   .billing-row,
   .medical-report-row,
   .medicine-row,
   .inventory-row {
-    width: 650px !important;
-    min-width: 650px !important;
+    width: 540px !important;
+    min-width: 540px !important;
   }
+  .patient-row {
+    grid-template-columns: 115px 60px 64px 80px 80px 52px 58px !important;
+  }
+  .dashboard-decorations .d1,
+  .dashboard-decorations .d3,
+  .dashboard-decorations .d5,
+  .dashboard-decorations .d7,
+  .dashboard-decorations .d9 { left: 52px !important; }
 }
