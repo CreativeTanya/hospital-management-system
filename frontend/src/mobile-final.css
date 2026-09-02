@@ -23,6 +23,7 @@
   .appointment-row > span:nth-child(3) { transform: translateX(-35px) !important; }
   .appointment-row.table-heading > span:nth-child(4) { transform: translateX(-50px) !important; }
   .appointment-row:not(.table-heading) > span:nth-child(4) { transform: translateX(-105px) !important; }
+  .appointment-row:not(.table-heading) .appointment-datetime { transform: translateX(-25px) !important; }
   .prescription-row { min-width: 735px !important; grid-template-columns: 145px 130px 105px 92px 82px 76px 70px !important; }
   .billing-row { min-width: 735px !important; width: 735px !important; grid-template-columns: 125px 105px 120px 78px 88px 95px 70px !important; }
   .medical-report-row { min-width: 690px !important; grid-template-columns: 130px 120px 115px 100px 100px 75px !important; }
