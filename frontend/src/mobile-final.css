@@ -79,9 +79,9 @@
     transform: translateX(30px) !important;
   }
 
-  /* Shift only the Status value inside view/details popups 5px left. */
-  .modal-overlay .patient-modal:not(:has(.patient-form)) .details-grid .detail-item:last-child > strong {
-    transform: translateX(-5px) !important;
+  /* Shift the actual Status value in every view/details popup 10px left. */
+  .modal-overlay .patient-modal:not(:has(.patient-form)) .details-grid .detail-item > strong[class*="status"] {
+    transform: translateX(-10px) !important;
   }
 }
 @media (max-width: 480px) {
